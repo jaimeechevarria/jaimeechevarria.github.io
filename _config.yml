@@ -6,7 +6,7 @@ description: > # Meta description of Homepage
   line in _config.yml. It will appear in your document head meta (for
   Google search results) and in your feed.xml site description.
 baseurl: "/" # the subpath of your site, e.g. /blog
-url: "https://fidelechevarria.github.io/" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://fidelechevarria.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 
 # SEO PLUGIN
 social:
@@ -34,6 +34,7 @@ email: fidel.echevarria.corrales@gmail.com # email for form submission
 
 #twitter_username: jan_czizikow # replace with your_twitter_username or comment to remove link from footer
 github_username:  fidelechevarria # replace with your_github_username or comment to remove link from footer
+linkedin_username: fidelechevarria
 #instagram_username: shanlongjj # replace with your_instagram_username or comment to remove link from footer
 
 disqus:
