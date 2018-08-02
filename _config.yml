@@ -2,9 +2,7 @@
 title: Computing and Engineering Blog # your site title
 author: Fidel Echevarria Corrales # You :P
 description: > # Meta description of Homepage
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  Computing and Engineering Blog by Fidel Echevarria Corrales.
 baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://fidelechevarria.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 
