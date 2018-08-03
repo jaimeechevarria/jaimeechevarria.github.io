@@ -1,6 +1,6 @@
 # SITE CONFIGURATION
 title: Computing and Engineering Blog # your site title
-author: Fidel Echevarria Corrales # You :P
+author: Fidel Echevarria Corrales # You
 description: > # Meta description of Homepage
   Computing and Engineering Blog by Fidel Echevarria Corrales.
 baseurl: "/" # the subpath of your site, e.g. /blog
@@ -10,12 +10,8 @@ url: "https://fidelechevarria.github.io" # the base hostname & protocol for your
 social:
   name: Fidel Echevarria Corrales
   links:
-    #- https://twitter.com/BenBalter
-    #- https://www.facebook.com/ben.balter
     - https://www.linkedin.com/in/fidelechevarria
-    #- https://plus.google.com/+BenBalter
     - https://github.com/fidelechevarria
-    #- https://keybase.io/benbalter
 
 # THEME SETTINGS
 navigation: # Navigation links
@@ -30,10 +26,10 @@ hero_img: posts/sleek_lg.jpg # Main background image: use the path from /assets/
 
 email: fidel.echevarria.corrales@gmail.com # email for form submission
 
-#twitter_username: jan_czizikow # replace with your_twitter_username or comment to remove link from footer
+#twitter_username: fidelechevarria # replace with your_twitter_username or comment to remove link from footer
 github_username:  fidelechevarria # replace with your_github_username or comment to remove link from footer
 linkedin_username: fidelechevarria
-#instagram_username: shanlongjj # replace with your_instagram_username or comment to remove link from footer
+#instagram_username: fidelechevarria # replace with your_instagram_username or comment to remove link from footer
 
 disqus:
   shortname: fidelechevarria-github-io # to enable comments replace with your_disqus_shortname
