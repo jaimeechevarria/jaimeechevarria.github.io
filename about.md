@@ -1,10 +1,10 @@
 ---
-layout: page
+layout: about
 title: About
 permalink: /about/
 ---
 
-![me myself](/about.jpg "Yep, that's me.")
+<br>
 
 Hello I'm Fidel,
 
