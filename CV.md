@@ -4,6 +4,5 @@ title: CV
 permalink: /CV/
 ---
 
-
-
-<embed src="/CV-Fidel-Echevarria.pdf" width="1150" height="1000" alt="pdf" pluginspage="http://www.adobe.com/products/acrobat/readstep2.html">
+<iframe src="http://docs.google.com/gview?url=https://fidelechevarria.github.io/CV-Fidel-Echevarria.pdf&embedded=true" 
+style="width:1150px; height:1000px;" frameborder="0"></iframe>
