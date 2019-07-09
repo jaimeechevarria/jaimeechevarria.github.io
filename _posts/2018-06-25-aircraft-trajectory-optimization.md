@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Aircraft Trajectory Optimization
-summary: Analysis tool for estimation of optimal trajectories for the different tracks of the Red Bull Air Race.
+summary: Analysis tool for estimation of optimal aircraft trajectories in air races.
 categories: [Simulation, Optimization]
 featured-img: rbar
 mathjax: true
