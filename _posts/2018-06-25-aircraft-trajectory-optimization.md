@@ -9,7 +9,7 @@ mathjax: true
 
 Red Bull Air Race is an international series of air races in which competitors have to navigate a challenging obstacle course in the fastest time possible. Pilots fly individually against the clock and have to complete tight turns through a slalom course consisting of pylons, known as "Air Gates", achieving speeds of up to 420 km/h and sustained accelerations of more than 10 G.
 
-<p align="center"> <img src="/assets/img/posts_contents/rbar_001.jpg" width="80%"></p>
+<p align="center"> <img src="/assets/img/article_images/rbar_001.jpg" width="80%"></p>
 
 Participant teams usually spend a significant amount of time trying to predict optimal aircraft trajectories to follow for each track, in an effort to achieve the fastest possible lap times.
 
