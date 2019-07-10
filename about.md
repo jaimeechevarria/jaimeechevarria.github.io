@@ -12,4 +12,4 @@ I'm an aeronautical engineer interested in fields like autonomous driving, machi
 
 I'm currently gainfully employed at [UAV Navigation](https://www.uavnavigation.com/).
 
-I hope you enjoy my blog!
+I hope you enjoy this site!
