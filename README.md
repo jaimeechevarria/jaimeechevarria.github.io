@@ -121,6 +121,10 @@ In case you want to add a hero image to the post, apart from changing featured-i
 
 Sleek uses [Lazy Sizes](https://github.com/aFarkas/lazysizes). Lazy Loader for loading images. Check the link for more info. Lazy Sizes doesnt’t require any configuration and it’s going to be included in your bundled js file.
 
+#### Equations
+
+Equations written in Latex can be rendered in Markdown posts by transforming them into html using [this website](https://www.codecogs.com/latex/eqneditor.php).
+
 ### Pages
 
 The home page is located under index.md file. To change the content or design you have to edit the default.html file in `_layouts` folder.
