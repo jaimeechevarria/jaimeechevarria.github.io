@@ -14,7 +14,7 @@ Red Bull Air Race is an international series of air races in which competitors h
     <figcaption><p align="center"><b>Figure 1</b> - Red Bull Air Race 2016 in Budapest</p></figcaption>
 </figure>
 
-&nbsp;
+<!-- &nbsp; -->
 
 Participant teams usually spend a significant amount of time trying to predict optimal aircraft trajectories to follow for each track, in an effort to achieve the fastest possible lap times.
 
@@ -22,7 +22,7 @@ In early 2018 I started working in a personal project to develop an analysis too
 
 The problem is not trivial. Let’s start from the beginning.
 
-&nbsp;
+<!-- &nbsp; -->
 
 ### What is the objective?
 
@@ -33,7 +33,7 @@ Races usually have two types of obstacles: Airgates of single or double pylons. 
     <figcaption><p align="center"><b>Figure 2</b> - Single pylon (left) and double pylons or gates (right)</p></figcaption>
 </figure>
 
-&nbsp;
+<!-- &nbsp; -->
 
 There exist several restrictions to take into consideration, including the following:
 
@@ -43,9 +43,11 @@ There exist several restrictions to take into consideration, including the follo
 * Aircraft must not surpass the acceleration limit of 10 G.
 * Aircraft must not start the race with a velocity higher than 200 knots.
 
-&nbsp;
+How could we approach this problem?
 
-### How could we approach this problem?
+<!-- &nbsp; -->
+
+### A simplistic approach
 
 This is an optimization problem with several types of constraints. We need to find a way to simplify the problem in order to reduce complexity.
 
@@ -60,8 +62,79 @@ Turning angle (**roll**) is dictated by the **curvature** of the aircraft trajec
 
 Given this statements, a direct relation can be extrapolated between the trajectory local curvature and the aircraft acceleration at that location.
 
-But what type of mathematical curve may an aircraft trajectory look like? One option is **cubic splines**.
+But what type of mathematical curve may an aircraft trajectory look like? One option are **cubic splines**.
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_003.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 3</b> - Cubic spline</p></figcaption>
+</figure>
+
+A cubic spline is a spline constructed of piecewise third-order polynomials which pass through a set of m control points. The second derivative of each polynomial is commonly set to zero at the endpoints, since this provides a boundary condition that completes the system of m-2 equations. This produces a so-called "natural" cubic spline and leads to a simple tridiagonal system which can be solved easily to give the coefficients of the polynomials [3].
+
+These curves provide a good approximation of the real trajectories. Curves of higher order could approach the trajectories more precisely, but they unnecessarily increase the complexity of the optimization problem and increase the probability of convergence to a local minimum instead of a global minimum. Order 3 polynomials provide a good balance between complexity and precision.
+
+Now, let's analyse the effect of turning angle (roll) in an aircraft lift while flying at the same altitude.
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_004.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 4</b> - Effect of roll on lift during level flight</p></figcaption>
+</figure>
+
+When an aircraft is flying straight (case A in figure 4), it’s weight (W) needs to be compensated by the generated lift (L). However, when an aircraft is turning (case B in figure 4), lift needs to be increased in order to be able to compensate the weight. The lift component in the vertical axis compensates the aircraft weight. This component is L·cos(φ). An additional component is generated in the horizontal axis, L·sin(φ). This component represents a centripetal force, which causes the aircraft trajectory to turn.
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_005.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 5</b> - Centripetal force during a turn</p></figcaption>
+</figure>
+
+The radius of curvature is dictated by current velocity and the aircraft weight. The centripetal force in a moving body can be defined by
+
+<!-- Equation created using CodeCogs -->
+<figure>
+    <p align="center"><img src="/assets/img/article_images/eqn1.svg" title="Equation 1" /></p>    
+</figure>
+
+Where R is the local radius of curvature. The lift component in the vertical axis needs to compensate the aircraft weight in order to maintain altitude.
+
+<!-- Equation created using CodeCogs -->
+<figure>
+    <p align="center"><img src="/assets/img/article_images/eqn2.svg" title="Equation 2" /></p>    
+</figure>
+
+These two equations can be combined to form
+
+<!-- Equation created using CodeCogs -->
+<figure>
+    <p align="center"><img src="/assets/img/article_images/eqn3.svg" title="Equation 3" /></p>    
+</figure>
+
+Given that
+
+<!-- Equation created using CodeCogs -->
+<figure>
+    <p align="center"><img src="/assets/img/article_images/eqn4.svg" title="Equation 4" /></p>    
+</figure>
+
+and that local curvature in a curve is defined as the inverse of the local radius
+
+<!-- Equation created using CodeCogs -->
+<figure>
+    <p align="center"><img src="/assets/img/article_images/eqn5.svg" title="Equation 5" /></p>    
+</figure>
+
+then
+
+<!-- Equation created using CodeCogs -->
+<figure>
+    <p align="center"><img src="/assets/img/article_images/eqn6.svg" title="Equation 6" /></p>    
+</figure>
+
+This equation will be useful when we derive another set of equations, corresponding to the longitudinal degree of freedom. Up until this point, the only mathematical concepts used where geometric and trigonometric relations, as well as the concept of force equilibrium and the definition of centripetal force.
+
+Now we have to take into account the aerodynamic forces. 
 
 
 
-<img src="https://latex.codecogs.com/svg.latex?\Large&space;x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" title="\Large x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" />
+## References
+
+[1] Steven
