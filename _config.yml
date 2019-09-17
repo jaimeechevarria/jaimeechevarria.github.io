@@ -23,7 +23,7 @@ navigation: # Navigation links
 tagline: >
   Artificial Intelligence - Robotics - Optimization - Graphical Design
 
-hero_img: posts/sleek_lg.jpg # Main background image: use the path from /assets/img/ => This will output /assets/img/posts/sleek_lg.jpg
+hero_img: general/hero_img.jpg # Main background image: use the path from /assets/img/ => This will output /assets/img/general/hero_img.jpg
 
 email: fidel.echevarria.corrales@gmail.com # email for form submission
 

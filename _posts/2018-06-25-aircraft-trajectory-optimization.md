@@ -69,7 +69,7 @@ But what type of mathematical curve may an aircraft trajectory look like? One op
     <figcaption><p align="center"><b>Figure 3</b> - Cubic spline</p></figcaption>
 </figure>
 
-A cubic spline is a spline constructed of piecewise third-order polynomials which pass through a set of m control points. The second derivative of each polynomial is commonly set to zero at the endpoints, since this provides a boundary condition that completes the system of m-2 equations. This produces a so-called "natural" cubic spline and leads to a simple tridiagonal system which can be solved easily to give the coefficients of the polynomials [3].
+A cubic spline is a spline constructed of piecewise third-order polynomials which pass through a set of $m$ control points. The second derivative of each polynomial is commonly set to zero at the endpoints, since this provides a boundary condition that completes the system of $m-2$ equations. This produces a so-called "natural" cubic spline and leads to a simple tridiagonal system which can be solved easily to give the coefficients of the polynomials [3].
 
 These curves provide a good approximation of the real trajectories. Curves of higher order could approach the trajectories more precisely, but they unnecessarily increase the complexity of the optimization problem and increase the probability of convergence to a local minimum instead of a global minimum. Order 3 polynomials provide a good balance between complexity and precision.
 
@@ -89,33 +89,53 @@ When an aircraft is flying straight (case A in figure 4), it’s weight ($W$) ne
 
 The radius of curvature is dictated by current velocity and the aircraft weight. The centripetal force in a moving body can be defined by
 
-$$ \normalsize L \cdot \sin \left (\varphi \right) = m \cdot \frac{V^2}{R} $$
+$$ \normalsize L \cdot \sin \left (\varphi \right) = m \cdot \frac{V^2}{R} \tag{1} $$
 
 Where $R$ is the local radius of curvature. The lift component in the vertical axis needs to compensate the aircraft weight in order to maintain altitude.
 
-$$ \normalsize L \cdot \cos \left (\varphi \right) = m \cdot g = W $$
+$$ \normalsize L \cdot \cos \left (\varphi \right) = m \cdot g = W \tag{2} $$
 
 These two equations can be combined to form
 
-$$ \normalsize \varphi = \arctan \left(\frac{V^2}{R \cdot g} \right) $$
+$$ \normalsize \varphi = \arctan \left(\frac{V^2}{R \cdot g} \right) \tag{3} $$
 
 Given that
 
-$$ \normalsize \cos \left(\arctan \left(x \right) \right) = \frac{1}{\sqrt{x^2 + 1}} $$
+$$ \normalsize \cos \left(\arctan \left(x \right) \right) = \frac{1}{\sqrt{x^2 + 1}} \tag{4} $$
 
 and that local curvature in a curve is defined as the inverse of the local radius
 
-$$ \normalsize \kappa = \frac{1}{R} $$
+$$ \normalsize \kappa = \frac{1}{R} \tag{5} $$
 
 then
 
-$$ \normalsize \cos \left (\varphi \right) = \frac{1}{\sqrt{\left(\frac{V^2 \cdot \kappa}{g} \right)^2 + 1}} $$
+$$ \normalsize \cos \left (\varphi \right) = \frac{1}{\sqrt{\left(\frac{V^2 \cdot \kappa}{g} \right)^2 + 1}} \tag{6} $$
 
 This equation will be useful when we derive another set of equations, corresponding to the longitudinal degree of freedom. Up until this point, the only mathematical concepts used where geometric and trigonometric relations, as well as the concept of force equilibrium and the definition of centripetal force.
 
-Now we have to take into account the aerodynamic forces.
+Now we need to take into account the aerodynamic forces. We will model lift, $L$, and drag, $D$, forces using the following equations (more info in post []).
 
+$$
+\normalsize
+\begin{gathered}
+    L=q \cdot S \cdot C_L \\
+    D=q \cdot S \cdot C_D \\
+\end{gathered}
+\tag{7}
+$$
 
+Where $q$ is the dynamic pressure, defined as $\frac{1}{2} \cdot \rho \cdot V^2$, being $\rho$ the air density and $V$ the total velocity of the aircraft. Variables $C_L$ and $C_D$ correspond to the lift coefficient and drag coefficient respectively. We will define those as
+
+$$
+\normalsize
+\begin{gathered}
+    C_L=C_{L_0} + C_{L_{\alpha}} \cdot \alpha \\
+    C_D=C_{D_0} + K \cdot {C_L}^2 \\
+\end{gathered}
+\tag{8}
+$$
+
+Where $\alpha$ refers to the aircraft angle of attack, $C_{L_0}$ and ${C_{D_0}}$ refer to the lift and drag coefficients at zero angle of attack, and $C_{L_{\alpha}}$ and ${K}$ are aerodynamic parameters dependant on the specific aircraft.
 
 ## References
 
