@@ -2,12 +2,12 @@
 .bundle
 .sass-cache
 _site
-_img
 Gemfile.lock
 .idea/*
 npm-debug.log
 *.js.map
 maps
+
 
 # OS Generated files #
 ######################
@@ -67,5 +67,10 @@ bower_components
 node_modules
 
 _algolia_api_key
+
 assets/img/local
+assets/css
+assets/js
 _oldposts
+
+sw.js
