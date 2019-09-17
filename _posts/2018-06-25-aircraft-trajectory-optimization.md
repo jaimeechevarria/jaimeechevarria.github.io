@@ -80,7 +80,7 @@ Now, let's analyse the effect of turning angle (roll) in an aircraft lift while 
     <figcaption><p align="center"><b>Figure 4</b> - Effect of roll on lift during level flight</p></figcaption>
 </figure>
 
-When an aircraft is flying straight (case A in figure 4), it’s weight (W) needs to be compensated by the generated lift (L). However, when an aircraft is turning (case B in figure 4), lift needs to be increased in order to be able to compensate the weight. The lift component in the vertical axis compensates the aircraft weight. This component is L·cos(φ). An additional component is generated in the horizontal axis, L·sin(φ). This component represents a centripetal force, which causes the aircraft trajectory to turn.
+When an aircraft is flying straight (case A in figure 4), it’s weight ($W$) needs to be compensated by the generated lift ($L$). However, when an aircraft is turning (case B in figure 4), lift needs to be increased in order to be able to compensate the weight. The lift component in the vertical axis compensates the aircraft weight. This component is $ L \cdot \cos \left (\varphi \right) $. An additional component is generated in the horizontal axis, $ L \cdot \sin \left (\varphi \right) $. This component represents a centripetal force which causes the aircraft trajectory to turn.
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_005.png" width="80%"></p>    
@@ -89,49 +89,31 @@ When an aircraft is flying straight (case A in figure 4), it’s weight (W) need
 
 The radius of curvature is dictated by current velocity and the aircraft weight. The centripetal force in a moving body can be defined by
 
-<!-- Equation created using CodeCogs -->
-<figure>
-    <p align="center"><img src="/assets/img/article_images/eqn1.svg" title="Equation 1" /></p>    
-</figure>
+$$ \normalsize L \cdot \sin \left (\varphi \right) = m \cdot \frac{V^2}{R} $$
 
-Where R is the local radius of curvature. The lift component in the vertical axis needs to compensate the aircraft weight in order to maintain altitude.
+Where $R$ is the local radius of curvature. The lift component in the vertical axis needs to compensate the aircraft weight in order to maintain altitude.
 
-<!-- Equation created using CodeCogs -->
-<figure>
-    <p align="center"><img src="/assets/img/article_images/eqn2.svg" title="Equation 2" /></p>    
-</figure>
+$$ \normalsize L \cdot \cos \left (\varphi \right) = m \cdot g = W $$
 
 These two equations can be combined to form
 
-<!-- Equation created using CodeCogs -->
-<figure>
-    <p align="center"><img src="/assets/img/article_images/eqn3.svg" title="Equation 3" /></p>    
-</figure>
+$$ \normalsize \varphi = \arctan \left(\frac{V^2}{R \cdot g} \right) $$
 
 Given that
 
-<!-- Equation created using CodeCogs -->
-<figure>
-    <p align="center"><img src="/assets/img/article_images/eqn4.svg" title="Equation 4" /></p>    
-</figure>
+$$ \normalsize \cos \left(\arctan \left(x \right) \right) = \frac{1}{\sqrt{x^2 + 1}} $$
 
 and that local curvature in a curve is defined as the inverse of the local radius
 
-<!-- Equation created using CodeCogs -->
-<figure>
-    <p align="center"><img src="/assets/img/article_images/eqn5.svg" title="Equation 5" /></p>    
-</figure>
+$$ \normalsize \kappa = \frac{1}{R} $$
 
 then
 
-<!-- Equation created using CodeCogs -->
-<figure>
-    <p align="center"><img src="/assets/img/article_images/eqn6.svg" title="Equation 6" /></p>    
-</figure>
+$$ \normalsize \cos \left (\varphi \right) = \frac{1}{\sqrt{\left(\frac{V^2 \cdot \kappa}{g} \right)^2 + 1}} $$
 
 This equation will be useful when we derive another set of equations, corresponding to the longitudinal degree of freedom. Up until this point, the only mathematical concepts used where geometric and trigonometric relations, as well as the concept of force equilibrium and the definition of centripetal force.
 
-Now we have to take into account the aerodynamic forces. 
+Now we have to take into account the aerodynamic forces.
 
 
 
