@@ -28,8 +28,8 @@
     {% include critical.css %}
 
   </style>
-  <link rel="preload" href="{{ '/assets/css/main.css' | relative_url }}" as="style" onload="this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}"></noscript>
+  <link rel="preload" href="{{ '/assets/css/main.css' | relative_url }}?{{site.time | date: '%s%N'}}" as="style" onload="this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}?{{site.time | date: '%s%N'}}"></noscript>
   <script type="text/javascript">
    {% include loadCss.js %}
   </script>
