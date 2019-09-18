@@ -80,7 +80,7 @@ Now, let's analyse the effect of turning angle (roll) in an aircraft lift while 
     <figcaption><p align="center"><b>Figure 4</b> - Effect of roll on lift during level flight</p></figcaption>
 </figure>
 
-When an aircraft is flying straight (case A in figure 4), it’s weight ($W$) needs to be compensated by the generated lift ($L$). However, when an aircraft is turning (case B in figure 4), lift needs to be increased in order to be able to compensate the weight. The lift component in the vertical axis compensates the aircraft weight. This component is $ L \cdot \cos \left (\varphi \right) $. An additional component is generated in the horizontal axis, $ L \cdot \sin \left (\varphi \right) $. This component represents a centripetal force which causes the aircraft trajectory to turn.
+When an aircraft is flying straight (case A in figure 4), it’s weight ($W$) needs to be compensated by the generated lift ($L$). However, when an aircraft is turning (case B in figure 4), lift needs to be increased in order to be able to compensate the weight. The lift component in the vertical axis compensates the aircraft weight. This component is $ L{\cdot}\cos \left (\varphi \right) $. An additional component is generated in the horizontal axis, $ L{\cdot}\sin \left (\varphi \right) $. This component represents a centripetal force which causes the aircraft trajectory to turn.
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_005.png" width="80%"></p>    
@@ -89,15 +89,15 @@ When an aircraft is flying straight (case A in figure 4), it’s weight ($W$) ne
 
 The radius of curvature is dictated by current velocity and the aircraft weight. The centripetal force in a moving body can be defined by
 
-$$ \normalsize L \cdot \sin \left (\varphi \right) = m \cdot \frac{V^2}{R} \tag{1} $$
+$$ \normalsize L{\cdot}\sin \left (\varphi \right) = m{\cdot}\frac{V^2}{R} \tag{1} $$
 
 Where $R$ is the local radius of curvature. The lift component in the vertical axis needs to compensate the aircraft weight in order to maintain altitude.
 
-$$ \normalsize L \cdot \cos \left (\varphi \right) = m \cdot g = W \tag{2} $$
+$$ \normalsize L{\cdot}\cos \left (\varphi \right) = m{\cdot}g = W \tag{2} $$
 
 These two equations can be combined to form
 
-$$ \normalsize \varphi = \arctan \left(\frac{V^2}{R \cdot g} \right) \tag{3} $$
+$$ \normalsize \varphi = \arctan \left(\frac{V^2}{R{\cdot}g} \right) \tag{3} $$
 
 Given that
 
@@ -109,7 +109,7 @@ $$ \normalsize \kappa = \frac{1}{R} \tag{5} $$
 
 then
 
-$$ \normalsize \cos \left (\varphi \right) = \frac{1}{\sqrt{\left(\frac{V^2 \cdot \kappa}{g} \right)^2 + 1}} \tag{6} $$
+$$ \normalsize \cos \left (\varphi \right) = \frac{1}{\sqrt{\left(\frac{V^2{\cdot}\kappa}{g} \right)^2 + 1}} \tag{6} $$
 
 This equation will be useful when we derive another set of equations, corresponding to the longitudinal degree of freedom. Up until this point, the only mathematical concepts used where geometric and trigonometric relations, as well as the concept of force equilibrium and the definition of centripetal force.
 
@@ -118,19 +118,19 @@ Now we need to take into account the aerodynamic forces. We will model lift, $L$
 $$
 \normalsize
 \begin{gathered}
-    L=q \cdot S \cdot C_L \\
-    D=q \cdot S \cdot C_D \\
+    L=q{\cdot}S{\cdot}C_L \\
+    D=q{\cdot}S{\cdot}C_D \\
 \end{gathered}
 \tag{7}
 $$
 
-Where $q$ is the dynamic pressure, defined as $\frac{1}{2} \cdot \rho \cdot V^2$, being $\rho$ the air density and $V$ the total velocity of the aircraft. Variable $S$ corresponds to the wing reference surface. Variables $C_L$ and $C_D$ correspond to the lift coefficient and drag coefficient respectively. We will define those as
+Where $q$ is the dynamic pressure, defined as $\frac{1}{2}{\cdot}\rho{\cdot}V^2$, being $\rho$ the air density and $V$ the total velocity of the aircraft. Variable $S$ corresponds to the wing reference surface. Variables $C_L$ and $C_D$ correspond to the lift coefficient and drag coefficient respectively. We will define those as
 
 $$
 \normalsize
 \begin{gathered}
-    C_L=C_{L_0} + C_{L_{\alpha}} \cdot \alpha \\
-    C_D=C_{D_0} + K \cdot {C_L}^2 \\
+    C_L=C_{L_0} + C_{L_{\alpha}}{\cdot}\alpha \\
+    C_D=C_{D_0} + K{\cdot}{C_L}^2 \\
 \end{gathered}
 \tag{8}
 $$
@@ -140,37 +140,98 @@ Where $\alpha$ refers to the aircraft angle of attack, $C_{L_0}$ and ${C_{D_0}}$
 Aicraft acceleration, $a$, can be modelled using Newton's first law of motion, having into account the vehicle mass, $m$.
 
 $$
-\normalsize m \cdot a = T - D \tag{9}
+\normalsize m{\cdot}a = T - D \tag{9}
 $$
 
 We can discretize the trajectory of the aircraft along the spline in small sectors. Considering $V_i$ the velocity at the start of a sector, $V_{med}$ the velocity at the middle of the sector, and $l$ the length of the sector, combining equations (6-9) we can approximate the acceleration at each sector by:
 
 $$
-\normalsize a \approxeq \frac{\Delta V}{\Delta t} = \frac{2 \cdot \left(V_{med} - V_i \right)}{\frac{l}{V_{med}}} = \frac{T - \frac{1}{2} \cdot \rho \cdot V_{med}^2 \cdot S \cdot \left(C_{D_0} + K \cdot \left(\frac{m \cdot g}{\frac{1}{2} \cdot \rho \cdot V_{med}^2 \cdot S \cdot \cos \left(\varphi \right)} \right)^2 \right)}{m} \tag{10}
+\normalsize a \approxeq \frac{\Delta V}{\Delta t} = \frac{2{\cdot}\left(V_{med} - V_i \right)}{\frac{l}{V_{med}}} = \frac{T - \frac{1}{2}{\cdot}\rho{\cdot}V_{med}^2{\cdot}S{\cdot}\left(C_{D_0} + K{\cdot}\left(\frac{m{\cdot}g}{\frac{1}{2}{\cdot}\rho{\cdot}V_{med}^2{\cdot}S{\cdot}\cos \left(\varphi \right)} \right)^2 \right)}{m} \tag{10}
 $$
 
 Where
 
-$$
-\normalsize \cos \left(\varphi \right) = \frac{1}{\sqrt{\left(\frac{V_{med}^2 \cdot \kappa}{g} \right)^2 + 1}} \tag{11}
-$$
+$$ \normalsize \cos \left(\varphi \right) = \frac{1}{\sqrt{\left(\frac{V_{med}^2{\cdot}\kappa}{g} \right)^2 + 1}} \tag{11} $$
 
 The solution of system of equations (10) and (11) for variable $V_{med}$ in order to find the medium velocity at each timestep reduces to a quartic function, which can be solved using Ferrari's formula.
 
-$$
-\normalsize a \cdot x^4 + b \cdot x^3 + c \cdot x^2 + d \cdot x + e = 0 \tag{12}
-$$
+$$ \normalsize a{\cdot}V_{med}^4 + b{\cdot}V_{med}^3 + c{\cdot}V_{med}^2 + d{\cdot}V_{med} + e = 0 \tag{12} $$
+
+Where coefficients $a$, $b$, $c$, $d$ and $e$ result in
 
 $$
 \normalsize
-\begin{align}
-    a &= 4 \cdot K \cdot l \cdot \kappa^2 \cdot m^2 + C_{D_0} \cdot S^2 \cdot l \cdot \rho^2 + 4 \cdot S \cdot m \cdot \rho \\
-    b &= -4 \cdot S \cdot V_i \cdot m \cdot \rho \\
-    c &= 2
-\end{align}
+\begin{aligned}
+    4{\cdot}K{\cdot}l{\cdot}\kappa^2{\cdot}m^2 + C_{D_0}{\cdot}S^2{\cdot}l{\cdot}\rho^2 + 4{\cdot}S{\cdot}m{\cdot}\rho = a \\
+    -4{\cdot}S{\cdot}V_i{\cdot}m{\cdot}\rho = b \\
+    -2{\cdot}S{\cdot}T{\cdot}l{\cdot}\rho = c \\
+    0 = d \\
+    4{\cdot}K{\cdot}l{\cdot}g^2{\cdot}m^2 = e \\
+\end{aligned}
 \tag{13}
 $$
+
+Ferrari's formula uses the following relations which provide the analytic solution of the quartic equation [].
+
+$$
+\normalsize
+\begin{aligned}
+    \Delta = 256{\cdot}a^{3}{\cdot}e^{3}-192{\cdot}a^{2}{\cdot}b{\cdot}d{\cdot}e^{2}-128{\cdot}a^{2}{\cdot}c^{2}{\cdot}e^{2}+144{\cdot}a^{2}{\cdot}c{\cdot}d^{2}{\cdot}e-27{\cdot}a^{2}{\cdot}d^{4} \\
+    +144{\cdot}a{\cdot}b^{2}{\cdot}c{\cdot}e^{2}-6{\cdot}a{\cdot}b^{2}{\cdot}d^{2}{\cdot}e-80{\cdot}a{\cdot}b{\cdot}c^{2}{\cdot}d{\cdot}e+18{\cdot}a{\cdot}b{\cdot}c{\cdot}d^{3}+16{\cdot}a{\cdot}c^{4}{\cdot}e \\
+    -4{\cdot}a{\cdot}c^{3}{\cdot}d^{2}-27{\cdot}b^{4}{\cdot}e^{2}+18{\cdot}b^{3}{\cdot}c{\cdot}d{\cdot}e-4{\cdot}b^{3}{\cdot}d^{3}-4{\cdot}b^{2}{\cdot}c^{3}{\cdot}e+b^{2}{\cdot}c^{2}{\cdot}d^{2}
+\end{aligned}
+\tag{14}
+$$
+
+&nbsp;
+
+$$
+\normalsize
+\begin{aligned}
+    {\frac {8{\cdot}a{\cdot}c - 3{\cdot}b^{2}}{8{\cdot}a^{2}}} = p \\
+    {\frac {b^{3} - 4{\cdot}a{\cdot}b{\cdot}c + 8{\cdot}a^{2}{\cdot}d}{8{\cdot}a^{3}}} = q
+\end{aligned}
+\tag{15}
+$$
+
+&nbsp;
+
+$$
+\normalsize
+\begin{aligned}
+    c^{2} - 3{\cdot}b{\cdot}d + 12{\cdot}a{\cdot}e = \Delta_{0} \\
+    2{\cdot}c^{3} - 9{\cdot}b{\cdot}c{\cdot}d + 27{\cdot}b^{2}{\cdot}e + 27{\cdot}a{\cdot}d^{2}-72{\cdot}a{\cdot}c{\cdot}e = \Delta_{1}
+\end{aligned}
+\tag{16}
+$$
+
+&nbsp;
+
+$$
+\normalsize
+\begin{aligned}
+    {\sqrt[{3}]{\frac {\Delta _{1}+{\sqrt {\left| -27{\cdot}\Delta \right|}}}{2}}} = Q \\
+    {\frac {1}{2}}{\sqrt {\left|-{\frac {2}{3}}\ p+{\frac {1}{3{\cdot}a}}\left(Q+{\frac {\Delta _{0}}{Q}}\right) \right|}} = S
+\end{aligned}
+\tag{17}
+$$
+
+&nbsp;
+
+$$
+\normalsize
+\begin{aligned}
+    -{\frac {b}{4{\cdot}a}}-S \pm {\frac {1}{2}}{\sqrt {-4{\cdot}S^{2}-2{\cdot}p+{\frac {q}{S}}}} = V_{med_{1,2}} \\
+    -{\frac {b}{4{\cdot}a}}+S \pm {\frac {1}{2}}{\sqrt {-4{\cdot}S^{2}-2{\cdot}p-{\frac {q}{S}}}} = V_{med_{3,4}}
+\end{aligned}
+\tag{18}
+$$
+
+We are interested in the biggest real solution to the polynomic equation.
+
+$$ \normalsize V_{med} = -{\frac {b}{4{\cdot}a}} + S + {\frac {1}{2}}{\sqrt {\left| -4{\cdot}S^{2}-2{\cdot}p-{\frac {q}{S}} \right|}} \tag{19} $$
 
 ## References
 
 [1] Steven
+[] https://en.wikipedia.org/wiki/Quartic_function
