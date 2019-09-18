@@ -124,7 +124,7 @@ $$
 \tag{7}
 $$
 
-Where $q$ is the dynamic pressure, defined as $\frac{1}{2} \cdot \rho \cdot V^2$, being $\rho$ the air density and $V$ the total velocity of the aircraft. Variables $C_L$ and $C_D$ correspond to the lift coefficient and drag coefficient respectively. We will define those as
+Where $q$ is the dynamic pressure, defined as $\frac{1}{2} \cdot \rho \cdot V^2$, being $\rho$ the air density and $V$ the total velocity of the aircraft. Variable $S$ corresponds to the wing reference surface. Variables $C_L$ and $C_D$ correspond to the lift coefficient and drag coefficient respectively. We will define those as
 
 $$
 \normalsize
@@ -136,6 +136,40 @@ $$
 $$
 
 Where $\alpha$ refers to the aircraft angle of attack, $C_{L_0}$ and ${C_{D_0}}$ refer to the lift and drag coefficients at zero angle of attack, and $C_{L_{\alpha}}$ and ${K}$ are aerodynamic parameters dependant on the specific aircraft.
+
+Aicraft acceleration, $a$, can be modelled using Newton's first law of motion, having into account the vehicle mass, $m$.
+
+$$
+\normalsize m \cdot a = T - D \tag{9}
+$$
+
+We can discretize the trajectory of the aircraft along the spline in small sectors. Considering $V_i$ the velocity at the start of a sector, $V_{med}$ the velocity at the middle of the sector, and $l$ the length of the sector, combining equations (6-9) we can approximate the acceleration at each sector by:
+
+$$
+\normalsize a \approxeq \frac{\Delta V}{\Delta t} = \frac{2 \cdot \left(V_{med} - V_i \right)}{\frac{l}{V_{med}}} = \frac{T - \frac{1}{2} \cdot \rho \cdot V_{med}^2 \cdot S \cdot \left(C_{D_0} + K \cdot \left(\frac{m \cdot g}{\frac{1}{2} \cdot \rho \cdot V_{med}^2 \cdot S \cdot \cos \left(\varphi \right)} \right)^2 \right)}{m} \tag{10}
+$$
+
+Where
+
+$$
+\normalsize \cos \left(\varphi \right) = \frac{1}{\sqrt{\left(\frac{V_{med}^2 \cdot \kappa}{g} \right)^2 + 1}} \tag{11}
+$$
+
+The solution of system of equations (10) and (11) for variable $V_{med}$ in order to find the medium velocity at each timestep reduces to a quartic function, which can be solved using Ferrari's formula.
+
+$$
+\normalsize a \cdot x^4 + b \cdot x^3 + c \cdot x^2 + d \cdot x + e = 0 \tag{12}
+$$
+
+$$
+\normalsize
+\begin{align}
+    a &= 4 \cdot K \cdot l \cdot \kappa^2 \cdot m^2 + C_{D_0} \cdot S^2 \cdot l \cdot \rho^2 + 4 \cdot S \cdot m \cdot \rho \\
+    b &= -4 \cdot S \cdot V_i \cdot m \cdot \rho \\
+    c &= 2
+\end{align}
+\tag{13}
+$$
 
 ## References
 
