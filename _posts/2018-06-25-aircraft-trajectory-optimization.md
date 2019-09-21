@@ -275,7 +275,17 @@ The track includes five control waypoints. In order to solve the problem it is n
     <figcaption><p align="center"><b>Figure 10</b> - Flight distance along trajectory</p></figcaption>
 </figure>
 
-This approach can be used to provide first approximations of the track time, but is not precise enough to be practical in real races. More elements can be added to improve the pipeline, such as adding the third degree of freedom of altitude, taking into account more aerodynamic coefficients like the lift coefficient due to angle of attack, $C_{L_\alpha}$, and modelling these coefficients as a function of velocity using look-up tables.
+This approach can be used to provide first approximations of track time, but is not precise enough to be practical in real races. More elements can be added to improve the pipeline, such as adding the third degree of freedom of altitude, taking into account more aerodynamic coefficients like the lift coefficient due to angle of attack, $C_{L_\alpha}$, and modelling these coefficients as a function of velocity using look-up tables.
+
+### Other approaches
+
+The solution to this problem needs to take into account many elements. First of all the dynamics associated with a moving vehicle on Earth. In other hand the own vehicle aerodynamics and thrust dynamics, and their relations with the vehicle control surfaces. Also, the point constraints associated with the control points (roll limits, velocity limits...), as well as the path constraints requirements along the entire trajectory (max G-force limits, position constraints inside the safety flight zone...).
+
+One could try to apply a deep reinforcement learning method, like Deep Q-Learning. The goal of Q-learning is to learn a policy, which tells an agent what action to take under what circumstances. It does not require a model of the environment, and it can handle problems with stochastic transitions and rewards, without requiring adaptations []. However, the degree of complexity of the problem in hand is excessively high for this method. The space of possible states and actions is huge, making it impractical to apply this technique to optimize the entire trajectory.
+
+Other approach to this problem is based on a technique called **direct collocation**. Direct collocation methods work by approximating the state and control trajectories using polynomial splines []. These methods are sometimes referred to as direct transcription. This technique can be used to transcribe the aicraft dynamics and all constraints into a problem which can be solved using **nonlinear programming**. In mathematics, nonlinear programming (NLP) is the process of solving an optimization problem where some of the constraints or the objective function are nonlinear.
+
+In order to implement this technique, I used the library **falcon.m**. 
 
 ## References
 
@@ -284,3 +294,7 @@ This approach can be used to provide first approximations of the track time, but
 [] https://en.wikipedia.org/wiki/Quartic_function
 
 [] https://www.mathworks.com/discovery/genetic-algorithm.html
+
+[] https://en.wikipedia.org/wiki/Q-learning#Deep_Q-learning
+
+[] Betts, J.T.
