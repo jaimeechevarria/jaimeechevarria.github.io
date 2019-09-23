@@ -283,9 +283,85 @@ The solution to this problem needs to take into account many elements. First of 
 
 One could try to apply a deep reinforcement learning method, like Deep Q-Learning. The goal of Q-learning is to learn a policy, which tells an agent what action to take under what circumstances. It does not require a model of the environment, and it can handle problems with stochastic transitions and rewards, without requiring adaptations []. However, the degree of complexity of the problem in hand is excessively high for this method. The space of possible states and actions is huge, making it impractical to apply this technique to optimize the entire trajectory.
 
-Other approach to this problem is based on a technique called **direct collocation**. Direct collocation methods work by approximating the state and control trajectories using polynomial splines []. These methods are sometimes referred to as direct transcription. This technique can be used to transcribe the aicraft dynamics and all constraints into a problem which can be solved using **nonlinear programming**. In mathematics, nonlinear programming (NLP) is the process of solving an optimization problem where some of the constraints or the objective function are nonlinear.
+Other approach to this optimal control problem is based on a technique called **direct collocation**. Direct collocation methods work by approximating the state and control trajectories using polynomial splines []. These methods are sometimes referred to as direct transcription. This technique can be used to transcribe the aicraft dynamics and all constraints into a problem which can be solved using **nonlinear programming**. In mathematics, nonlinear programming (NLP) is the process of solving an optimization problem where some of the constraints or the objective function are nonlinear.
 
-In order to implement this technique, I used the library **falcon.m**. 
+In order to implement this technique, I used the library **falcon.m** []. This library is a free optimal control tool developed at the Institute of Flight System Dynamics at the Institute of Flight System Dynamics of the Technical University of Munich (TUM). It provides a MATLAB class library which allows to set-up, solve and analyze optimal control problems using numerical optimization methods. The code is optimized for usability and performance and enables the solution of high fidelity real-life optimal control problems with ease.
+
+### Dynamic model
+
+A precise dynamic model is essential for this project. This section presents a more complete aerodynamic model which can be used to model the aircraft. Vehicle aerodynamics are modelled by taking into account forces and moments. On textbooks on aerodynamics [] it is shown that, for a body of given shape with a given orientation to the freestream flow, the forces and moments are proportional to the product of freestream mass density, $\rho$, the square of the freestream airspeed, $V$, and a characteristic area of the body. When modelling aircraft aerodynamics, the characteristic area of the body is typically selected as the wing reference surface, $S$. The product of the first two quantities has the dimensions of pressure and it is convenient to define the *dynamic pressure*, $q$, by
+
+$$ \small q=\frac{1}{2} \cdot \rho \cdot V^2 \tag{21} $$
+
+We are now in a position to write down the mathematical models for the magnitudes of the forces and moments. The forces and moments acting on the complete aircraft are defined in terms of dimensionless aerodynamic coefficients in equations 2 and 3 respectively. Moment nondimensionalization is usually performed with additional parameters like wingspan, $b$, or wing mean chord, $c$.
+
+$$
+\small
+\begin{gathered}
+    L=q \cdot S \cdot C_L \\
+    D=q \cdot S \cdot C_D \\
+    Y=q \cdot S \cdot C_Y
+\end{gathered}
+\tag{22}
+$$
+
+$$
+\small
+\begin{gathered}
+    l=q \cdot S \cdot b \cdot C_l \\
+    m=q \cdot S \cdot c \cdot C_m \\
+    n=q \cdot S \cdot b \cdot C_n
+\end{gathered}
+\tag{23}
+$$
+
+The aircraft aerodynamic coefficients are, in practice, specified as functions of the aerodynamic angles, velocity, and altitude. In addition, control surface deflections and propulsion system effects cause changes in the coefficients. A control surface deflection, $\delta_s$, effectively changes the camber of a wing, which changes the lift, drag, and moment.
+
+Aerodynamic angles is the name given to two different angles:
+
+* The **angle of attack**, $\alpha$, specifies the angle between the chord line of the wing of a fixed-wing aircraft and the vector representing the relative motion between the aircraft and the atmosphere. It is the primary parameter in longitudinal stability considerations.
+
+* The **sideslip angle**, $\beta$, specifies the angle made by the velocity vector to the longitudinal axis of the vehicle in the local horizontal plane (North/East). The sideslip angle is essentially the directional angle of attack of the airplane. It is the primary parameter in directional stability considerations.
+
+Angle of attack and sideslip angle definitions are schematized in figure 11.
+
+[figure]
+
+Consequently, force and moment coefficients can be approximated respectively by equations 24 and 25 defined below.
+
+$$
+\small
+\begin{gathered}
+    C_L=C_{L_0} + C_{L_{\alpha}} \cdot \alpha \\
+    C_D=C_{D_0} + K \cdot {C_L}^2 + C_{D_{\beta}} \cdot \beta \\
+    C_Y=C_{Y_{\beta}} \cdot \beta + C_{Y_{\delta r}} \cdot \delta r
+\end{gathered}
+\tag{24}
+$$
+
+$$
+\small
+\begin{gathered}
+    C_l=C_{l_{\beta}} \cdot \beta + C_{l_{\delta a}} \cdot \delta a + C_{l_{\delta r}} \cdot \delta r + \frac{b}{2V} \cdot (C_{l_p} \cdot p + C_{l_r} \cdot r) \\
+    C_m=C_{m_0} + C_{m_{\alpha}} \cdot \alpha + C_{m_{\delta e}} \cdot \delta e + \frac{c}{2V} \cdot (C_{m_q} \cdot q + C_{m_{\dot{\alpha}}} \cdot \dot{\alpha}) \\
+    C_n=C_{n_{\beta}} \cdot \beta + C_{n_{\delta a}} \cdot \delta a + C_{n_{\delta r}} \cdot \delta r + \frac{b}{2V} \cdot (C_{n_p} \cdot p + C_{n_r} \cdot r)
+\end{gathered}
+\tag{25}
+$$
+
+Where aerodynamic derivative $C_{x_y}$ provides information about the effect on the variable $x$ caused by a unitary increment in the variable $y$. Aerodynamic derivatives $C_{L_0}$ and $C_{D_0}$ are called zero angle of attack lift and parasite drag respectively, and they represent the lift and drag contribution which is not due to any other variable and is present even at zero angle of attack.
+
+The coefficients shown in equations 24 and 25 are called aerodynamic coefficients or derivatives, and they can be classified into three different groups:
+
+* **Stability derivatives** - $C_{L_0}, C_{L_{\alpha}}, C_{D_0}, K, C_{D_{\beta}}, C_{Y_{\beta}}, C_{l_{\beta}}, C_{m_0}, C_{m_{\alpha}}, C_{n_{\beta}}$.
+
+* **Control derivatives** - $C_{Y_{\delta r}}, C_{l_{\delta a}}, C_{l_{\delta r}}, C_{m_{\delta e}}, C_{n_{\delta a}}, C_{n_{\delta r}}$.
+
+* **Damping derivatives** - $C_{l_p}, C_{l_r}, C_{m_q}, C_{m_{\dot{\alpha}}}, C_{n_p}, C_{n_r}$. 
+
+Note that terms concerning damping derivatives are always nondimensionalized in the moment coefficients equations. The nondimensionalization factor is dependant on the reference axis.
+
+
 
 ## References
 
@@ -298,3 +374,7 @@ In order to implement this technique, I used the library **falcon.m**.
 [] https://en.wikipedia.org/wiki/Q-learning#Deep_Q-learning
 
 [] Betts, J.T.
+
+[] http://www.fsd.mw.tum.de/software/falcon-m/
+
+[] A. M. Kuethe and C. Y. Chow.Foundations of Aerodynamics. Wiley, 1984.
