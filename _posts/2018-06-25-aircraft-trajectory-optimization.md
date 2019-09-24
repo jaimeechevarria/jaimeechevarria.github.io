@@ -287,7 +287,7 @@ Other approach to this optimal control problem is based on a technique called **
 
 In order to implement this technique, I used the library **falcon.m** []. This library is a free optimal control tool developed at the Institute of Flight System Dynamics at the Institute of Flight System Dynamics of the Technical University of Munich (TUM). It provides a MATLAB class library which allows to set-up, solve and analyze optimal control problems using numerical optimization methods. The code is optimized for usability and performance and enables the solution of high fidelity real-life optimal control problems with ease.
 
-### Dynamic model
+### Aerodynamic model
 
 A precise dynamic model is essential for this project. This section presents a more complete aerodynamic model which can be used to model the aircraft. Vehicle aerodynamics are modelled by taking into account forces and moments. On textbooks on aerodynamics [] it is shown that, for a body of given shape with a given orientation to the freestream flow, the forces and moments are proportional to the product of freestream mass density, $\rho$, the square of the freestream airspeed, $V$, and a characteristic area of the body. When modelling aircraft aerodynamics, the characteristic area of the body is typically selected as the wing reference surface, $S$. The product of the first two quantities has the dimensions of pressure and it is convenient to define the *dynamic pressure*, $q$, by
 
@@ -323,11 +323,31 @@ Aerodynamic angles is the name given to two different angles:
 
 * The **sideslip angle**, $\beta$, specifies the angle made by the velocity vector to the longitudinal axis of the vehicle in the local horizontal plane (North/East). The sideslip angle is essentially the directional angle of attack of the airplane. It is the primary parameter in directional stability considerations.
 
-Angle of attack and sideslip angle definitions are schematized in figure 11.
+Angle of attack and sideslip angle definitions are schematized in figures 11 and 12.
 
-[figure]
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_011.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 11</b> - Angle of attack (source: Wikipedia)</p></figcaption>
+</figure>
 
-Consequently, force and moment coefficients can be approximated respectively by equations 24 and 25 defined below.
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_012.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 12</b> - Sideslip angle (source: Wikipedia)</p></figcaption>
+</figure>
+
+Aerodynamic angles can be defined as a function of the velocity components in body-axes coordinate system
+
+$$
+\small
+\begin{gathered}
+    V = \sqrt{v_x^2 + v_y^2 + v_z^2} \\
+    \alpha = \arctan{\left(\frac{v_z}{v_x} \right)} \\
+    \beta = \arcsin{\left(\frac{v_y}{V} \right)}
+\end{gathered}
+\tag{24}
+$$
+
+Consequently, force and moment coefficients can be approximated respectively by equations 25 and 26 defined below.
 
 $$
 \small
@@ -336,7 +356,7 @@ $$
     C_D=C_{D_0} + K \cdot {C_L}^2 + C_{D_{\beta}} \cdot \beta \\
     C_Y=C_{Y_{\beta}} \cdot \beta + C_{Y_{\delta r}} \cdot \delta r
 \end{gathered}
-\tag{24}
+\tag{25}
 $$
 
 $$
@@ -346,12 +366,12 @@ $$
     C_m=C_{m_0} + C_{m_{\alpha}} \cdot \alpha + C_{m_{\delta e}} \cdot \delta e + \frac{c}{2V} \cdot (C_{m_q} \cdot q + C_{m_{\dot{\alpha}}} \cdot \dot{\alpha}) \\
     C_n=C_{n_{\beta}} \cdot \beta + C_{n_{\delta a}} \cdot \delta a + C_{n_{\delta r}} \cdot \delta r + \frac{b}{2V} \cdot (C_{n_p} \cdot p + C_{n_r} \cdot r)
 \end{gathered}
-\tag{25}
+\tag{26}
 $$
 
 Where aerodynamic derivative $C_{x_y}$ provides information about the effect on the variable $x$ caused by a unitary increment in the variable $y$. Aerodynamic derivatives $C_{L_0}$ and $C_{D_0}$ are called zero angle of attack lift and parasite drag respectively, and they represent the lift and drag contribution which is not due to any other variable and is present even at zero angle of attack.
 
-The coefficients shown in equations 24 and 25 are called aerodynamic coefficients or derivatives, and they can be classified into three different groups:
+The coefficients shown in equations 25 and 26 are called aerodynamic coefficients or derivatives, and they can be classified into three different groups:
 
 * **Stability derivatives** - $C_{L_0}, C_{L_{\alpha}}, C_{D_0}, K, C_{D_{\beta}}, C_{Y_{\beta}}, C_{l_{\beta}}, C_{m_0}, C_{m_{\alpha}}, C_{n_{\beta}}$.
 
@@ -361,7 +381,21 @@ The coefficients shown in equations 24 and 25 are called aerodynamic coefficient
 
 Note that terms concerning damping derivatives are always nondimensionalized in the moment coefficients equations. The nondimensionalization factor is dependant on the reference axis.
 
+### Aircraft Kinematics
 
+This section includes the aircraft kinematic equations which model the derivatives of the aircraft states in terms of the resulting forces and moments of the aerodynamic model, and of the states themselves.
+
+Force equations
+
+$$
+\small
+\begin{gathered}
+    a \\
+    a \\
+    a
+\end{gathered}
+\tag{26}
+$$
 
 ## References
 
