@@ -14,15 +14,11 @@ Red Bull Air Race is an international series of air races in which competitors h
     <figcaption><p align="center"><b>Figure 1</b> - Red Bull Air Race 2016 in Budapest</p></figcaption>
 </figure>
 
-<!-- &nbsp; -->
-
 Participant teams usually spend a significant amount of time trying to predict optimal aircraft trajectories to follow for each track, in an effort to achieve the fastest possible lap times.
 
 In early 2018 I started working in a personal project to develop an analysis tool which enabled a temporal-space study of optimal trajectories for different race tracks.
 
 The problem is not trivial. Let’s start from the beginning.
-
-<!-- &nbsp; -->
 
 ### What is the objective?
 
@@ -32,8 +28,6 @@ Races usually have two types of obstacles: Airgates of single or double pylons. 
     <p align="center"><img src="/assets/img/article_images/rbar_002.jpg" width="80%"></p>    
     <figcaption><p align="center"><b>Figure 2</b> - Single pylon (left) and double pylons or gates (right)</p></figcaption>
 </figure>
-
-<!-- &nbsp; -->
 
 There exist several restrictions to take into consideration, including the following:
 
@@ -295,6 +289,8 @@ $$ \small q=\frac{1}{2} \cdot \rho \cdot V^2 \tag{21} $$
 
 We are now in a position to write down the mathematical models for the magnitudes of the forces and moments. The forces and moments acting on the complete aircraft are defined in terms of dimensionless aerodynamic coefficients in equations 2 and 3 respectively. Moment nondimensionalization is usually performed with additional parameters like wingspan, $b$, or wing mean chord, $c$.
 
+Aerodynamic forces
+
 $$
 \small
 \begin{gathered}
@@ -304,6 +300,8 @@ $$
 \end{gathered}
 \tag{22}
 $$
+
+Aerodynamic moments
 
 $$
 \small
@@ -349,6 +347,8 @@ $$
 
 Consequently, force and moment coefficients can be approximated respectively by equations 25 and 26 defined below.
 
+Aerodynamic forces coefficients
+
 $$
 \small
 \begin{gathered}
@@ -358,6 +358,8 @@ $$
 \end{gathered}
 \tag{25}
 $$
+
+Aerodynamic moments coefficients
 
 $$
 \small
@@ -383,19 +385,271 @@ Note that terms concerning damping derivatives are always nondimensionalized in 
 
 ### Aircraft Kinematics
 
-This section includes the aircraft kinematic equations which model the derivatives of the aircraft states in terms of the resulting forces and moments of the aerodynamic model, and of the states themselves.
+This section includes the aircraft kinematic equations [] which model the derivatives of the aircraft states in terms of the resulting forces and moments of the aerodynamic model, and of the states themselves.
 
 Force equations
 
 $$
 \small
 \begin{gathered}
-    a \\
-    a \\
-    a
+    \dot{u} = r{\cdot}v - q{\cdot}w - g{\cdot}\sin{\left(\theta \right)} + \left(X_A + X_T \right)/m \\
+    \dot{v} = -r{\cdot}u + p{\cdot}w + g{\cdot}\sin{\left(\varphi \right)}{\cdot}\cos{\left(\theta \right)} + \left(Y_A + Y_T \right)/m \\
+    \dot{w} = q{\cdot}u - p{\cdot}v + g{\cdot}\cos{\left(\varphi \right)}{\cdot}\cos{\left(\theta \right)} + \left(Z_A + Z_T \right)/m
 \end{gathered}
-\tag{26}
+\tag{27}
 $$
+
+Kinematic equations
+
+$$
+\small
+\begin{gathered}
+    \dot{\varphi} = p + \tan{\left(\theta \right)}{\cdot}\left[q{\cdot}\sin{\left(\varphi \right)} + r{\cdot}\cos{\left(\varphi \right)} \right] \\
+    \dot{\theta} = q{\cdot}\cos{\left(\varphi \right)} - r{\cdot}\sin{\left(\varphi \right)} \\
+    \dot{\psi} = \left[q{\cdot}\sin{\left(\varphi \right)} + r{\cdot}\cos{\left(\varphi \right)} \right] / \cos{\left(\theta \right)}
+\end{gathered}
+\tag{28}
+$$
+
+Moment equations
+
+$$
+\small
+\begin{gathered}
+    \Gamma{\cdot}\dot{p} = I_{xz}{\cdot}\left(I_x - I_y + I_z \right){\cdot}p{\cdot}q - \left[ I_z \left(I_z - I_y \right) + I_{xz}^2 \right] {\cdot}q{\cdot}r + I_z{\cdot}l + I_{xz}{\cdot}n \\
+    I_y{\cdot}\dot{q} = \left(I_z - I_x \right){\cdot}p{\cdot}r - I_{xz}\left(p^2 - r^2 \right) + m \\
+    \Gamma{\cdot}\dot{r} = \left[ \left(I_x - I_y \right){\cdot}I_x + I_{xz}^2 \right]{\cdot}p{\cdot}q - I_{xz} \left(I_x - I_y + I_z \right){\cdot}q{\cdot}r + I_{xz}{\cdot}l + I_x{\cdot}n \\
+    \Gamma = I_x{\cdot}I_z - I_{xz}^2
+\end{gathered}
+\tag{29}
+$$
+
+Navigation equations
+
+$$
+\def\cp{c\theta}
+\def\sp{s\theta}
+\def\cr{c\varphi}
+\def\sr{s\varphi}
+\def\cy{c\psi}
+\def\sy{s\psi}
+\small
+\begin{gathered}
+    \dot{p}_N = u{\cdot}\cp{\cdot}\cy + v{\cdot}\left( -\cr{\cdot}\sy + \sr{\cdot}\sp{\cdot}\cy \right) + w{\cdot}\left( \sr{\cdot}\sy + \cr{\cdot}\sp{\cdot}\cy \right) \\
+    \dot{p}_E = u{\cdot}\cp{\cdot}\sy + v{\cdot}\left( \cr{\cdot}\cy + \sr{\cdot}\sp{\cdot}\sy \right) + w{\cdot}\left( -\sr{\cdot}\cy + \cr{\cdot}\sp{\cdot}\sy \right) \\
+    \dot{h} = u{\cdot}\sp - v{\cdot}\sr{\cdot}\cp - w{\cdot}\cr{\cdot}\cp
+\end{gathered}
+\tag{30}
+$$
+
+### Simplified model
+
+Library *falcon.m* uses the software package *Ipopt* for large-scale nonlinear optimization []. This software is designed to find local solutions of mathematical optimization problems for minimization of an objective function subject to constraints. It is written in C++ for efficiency. The dynamic model described in the previous two sections is complex, so the solution space tends to have numerous local solutions when using this complex model. This is a problem because *Ipopt* is a tool for local optimization, not global. In order to smooth the solution space and eliminate many local solutions, a simpler approximation is proposed.
+
+Lift and drag coefficients
+
+$$
+\small
+\begin{gathered}
+    C_L = C_{L_0} + C_{L_{\alpha}} \cdot \alpha \\
+    C_D = C_{D_0} + K \cdot {C_L}^2 + C_{D_{p}} \cdot \left| p \right| \\
+\end{gathered}
+\tag{31}
+$$
+
+Lift and drag
+
+$$
+\small
+\begin{gathered}
+    L = q \cdot S \cdot C_L \\
+    D = q \cdot S \cdot C_D \\
+\end{gathered}
+\tag{32}
+$$
+
+Angular velocities in x and z body axes
+
+$$
+\small
+\begin{gathered}
+    q = \left[T{\cdot}\sin{\left(\alpha \right)} + L - m{\cdot}g{\cdot}\left(q_0^2 - q_1^2 - q_2^2 + q_3^2 \right) \right] / \left(m{\cdot}V \right) \\
+    r = \left[ 2{\cdot}m{\cdot}g{\cdot}\left(q_0{\cdot}q_1 + q_2{\cdot}q_3 \right) \right] / \left(m{\cdot}V \right) \\
+\end{gathered}
+\tag{33}
+$$
+
+Longitudinal acceleration
+
+$$
+\small
+\dot{V} = \left[T{\cdot}\cos{\left(\alpha \right)} - D + 2{\cdot}m{\cdot}g{\cdot}\left(q_1{\cdot}q_3 - q_0{\cdot}q_2 \right) \right] / m
+\tag{34}
+$$
+
+Quaternion derivatives
+
+$$
+\small
+\begin{gathered}
+    \dot{q_0} = -\frac{1}{2} {\cdot} \left( q_1{\cdot}p + q_2{\cdot}q + q_3{\cdot}r \right) \\
+    \dot{q_1} = +\frac{1}{2} {\cdot} \left( q_0{\cdot}p + q_2{\cdot}r + q_3{\cdot}q \right) \\
+    \dot{q_2} = +\frac{1}{2} {\cdot} \left( q_0{\cdot}q + q_3{\cdot}p + q_1{\cdot}r \right) \\
+    \dot{q_3} = +\frac{1}{2} {\cdot} \left( q_0{\cdot}r + q_1{\cdot}q + q_2{\cdot}p \right) \\
+\end{gathered}
+\tag{35}
+$$
+
+Velocities
+
+$$
+\small
+\begin{gathered}
+    \dot{p_N} = V{\cdot}\left(q_0^2 + q_1^2 - q_2^2 - q_3^2 \right) \\
+    \dot{p_E} = 2{\cdot}V{\cdot}\left(q_0{\cdot}q_3 + q_1{\cdot}q_2 \right) \\
+    \dot{h} = 2{\cdot}V{\cdot}\left(q_0{\cdot}q_2 - q_1{\cdot}q_3 \right) \\
+\end{gathered}
+\tag{36}
+$$
+
+### The tool
+
+The quaternion-based model can be implemented as an objective function in *falcon.m*.
+
+```matlab
+function [states_dot] = dyn_complete(states, controls)
+% model interface created by falcon.m
+
+% Extract states
+V = states(1);
+q0 = states(2);
+q1 = states(3);
+q2 = states(4);
+q3 = states(5);
+
+% Extract controls
+alpha = controls(1);
+T = controls(2);
+p = controls(3);
+
+% Constants
+m = 750;
+g = 9.8056;
+rho = 1.225;
+S = 9.84;
+Clalpha = 5.7;
+K = 0.18;
+Cd0 = 0.0054;
+Cl0 = 0.1205;
+Cdp = 0.05;
+
+% Dynamic model
+Cl = Clalpha.*alpha + Cl0;
+L = 0.5.*rho.*V.^2.*S.*Cl;
+D = 0.5.*rho.*V.^2.*S.*(Cd0+K.*Cl.^2+Cdp*abs(p));
+q = (T.*sin(alpha)+L-m.*g.*(q0.^2-q1.^2-q2.^2+q3.^2))./(m.*V);
+r = (2.*m.*g.*(q0.*q1+q2.*q3))./(m.*V);
+V_dot = (T.*cos(alpha)-D+2.*m.*g.*(q1.*q3-q0.*q2))./m;
+q0_dot = -0.5.*(q1.*p+q2.*q+q3.*r);
+q1_dot =  0.5.*(q0.*p+q2.*r-q3.*q);
+q2_dot =  0.5.*(q0.*q+q3.*p-q1.*r);
+q3_dot =  0.5.*(q0.*r+q1.*q-q2.*p);
+x_dot = V.*(q0.^2+q1.^2-q2.^2-q3.^2);
+y_dot = 2.*V.*(q0.*q3+q1.*q2);
+h_dot = 2.*V.*(q0.*q2-q1.*q3);
+states_dot = [T_dot; V_dot; alpha_dot; q0_dot; q1_dot; q2_dot; q3_dot; x_dot; y_dot; h_dot];
+
+end
+```
+
+
+The tool *falcon.m* uses *Matlab Symbolic Toolbox* to find the analytic gradients of the objective function. This task can become complex if the entire dynamic model is considered. In order to facilitate the gradient calculation, the quaternion-based model can be divided into small sections, each of which has an easier gradient calculation and can be all concatenated when finished. This divide and conquer strategy speeds up execution time and decreases the probability of not finding a solution.
+
+Next, the constraints should be implemented into the tool. Constraints are implemented into two types:
+
+* Point boundaries: These are only applied in the initial and final points of the segment (control waypoints). Here we can include the position constraints to pass through/near the pylons and the attitude constraints to pass the pylons at level flight.
+
+* Path constraints: These are applied along the entire segments between the control waypoints. Here we can include the acceleration limits, the position limits to fly inside the safety area, and the requirement that the norm of the quaternion components is always one, in order to correct for possible numerical errors accumulated during the propagation.
+
+The optimal control problem is divided into two fronts:
+
+* Segment optimization: Optimization for a trajectory segment joining a control waypoint with the next one.
+
+* Trajectory optimization: Trajectory segments are optimized sequentially in order to obtain an optimal control strategy for the entire trajectory. Each new segment has the initial conditions equal to the final conditions of the previous segment. This logic is not optimal, since the solver is optimizing each segment independently of the future segments. Nevertheless, the results are almost optimal given that the segments are significantly big. A future tool improvement could be to connect each segment optimization pipeline in order to have into account the N following segments (*falcon.m* already implements this functionality).
+
+In order to provide graphical visualization of the resulting trajectories, compatibility with *FlightGear* open source flight simulator has been implemented in the tool. This also allows to manually test the dynamic model using a Joystick. The graphical visualization engine receives the aircraft's position and attitude from the MATLAB tool via a UDP socket at 60 Hz.
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_013.jpg" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 13</b> - FlighGear graphical visualization (1) </p></figcaption>
+</figure>
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_014.jpg" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 14</b> - FlighGear graphical visualization (2) </p></figcaption>
+</figure>
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_015.jpg" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 15</b> - FlighGear graphical visualization (3) </p></figcaption>
+</figure>
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_016.jpg" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 16</b> - FlighGear graphical visualization (4) </p></figcaption>
+</figure>
+
+A graphical user interface was developed to facilitate the configuration process.
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_017.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 17</b> - Flight plan tab</p></figcaption>
+</figure>
+
+In the Flight Plan tab the user can set the coordinates of the control waypoints, as well as specify if each of those waypoints corresponds to a single or double pylon and if a 3D manouevre (looping) is allowed in that segment.
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_018.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 18</b> - Dynamic model tab (1)</p></figcaption>
+</figure>
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_019.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 19</b> - Dynamic model tab (2)</p></figcaption>
+</figure>
+
+Dynamic model tab conatins all the configuration parameters related with the aerodynamic derivatives, mass and inertial properties of the aircraft, physical parameters, constraints limits and wind direction and speed. 
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_020.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 20</b> - Options tab</p></figcaption>
+</figure>
+
+Options tab contains configuration parameters related to the optimization logic, as well as to the graphical visualization properties.
+
+The quaternion-based model facilitates the convergence to a global minimum by reducing the number of local minima in the solution space. However, in order to increase the probability of achieving this global minimum, it is necessary to provide an initial trajectory which is close to the solution. An assistant has been implemented in order to allow the user to set an approximate initial trajectory.
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_021.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 21</b> - Initial Trajectory Assistant</p></figcaption>
+</figure>
+
+The initial trajectory does not only refer to positional trajectory, but also the trajectory of the dynamic states, such as thrust, longitudinal velocity, angle of attack or roll angle. Remember the method of direct collocation is based on approximating the state history with polynomial splines, so an initial spline should also be provided. One virtual point is appended between each pair of control waypoints (3 virtual points in case the segment has been set as 3D). This virtual points allow to adjust the initial trajectory more precisely.
+
+Once everything has been set the tool calculates the analytical gradients of the dynamic model using *MATLAB Symbolic Toolbox*, transforms the optimization problem into a nonlinear programming formulation, compiles this code in C++ using *MATLAB Coder* and calls solver *Ipopt* to execute the optimization process. Here are the results of our simple example (open in new tab for more detail).
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_022.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 22</b> - Optimal trajectory (scale 100%)</p></figcaption>
+</figure>
+
+The aircraft is represented along the trajectory to help visualizing aircraft attitude along the track. In image 22 the aircraft is represented at real size, but it can barely be seen. This can be improved by rendering the aircraft four times bigger.
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_023.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 23</b> - Optimal trajectory (scale 400%)</p></figcaption>
+</figure>
+
 
 ## References
 
@@ -412,3 +666,7 @@ $$
 [] http://www.fsd.mw.tum.de/software/falcon-m/
 
 [] A. M. Kuethe and C. Y. Chow.Foundations of Aerodynamics. Wiley, 1984.
+
+[] https://github.com/coin-or/Ipopt
+
+[] Well, K.H. and Wever, U. A., ”Aircraft Trajectory Optimization using Quaternions - Comparison of a Nonlinear Programming and a Multiple Shooting Approach,” Proceedings IFAC 9th Triennial World Congress, Budapest, Hungary, 1984, pp. 1595-1602.
