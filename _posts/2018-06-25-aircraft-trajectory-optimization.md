@@ -747,6 +747,83 @@ The <br /> statement leaves a blank line between the video and the figure title.
 <figcaption><p align="center"><b>Figure 25</b> - Optimal trajectory animation in FlightGear</p></figcaption>
 </figure>
 
+The example shown corresponds to the 3D segment of Abu Dhabi Red Bull Air Race 2017 track. This optimization was performed on a single segment. Multiple control waypoints can be set in order to perform an optimization of the entire track composed of various segments. An example race track with six control waypoints is shown in the following figures.
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_026.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 26</b> - Multiple segments race track</p></figcaption>
+</figure>
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_027.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 27</b> - Initial trajectory assistant</p></figcaption>
+</figure>
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_028.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 28</b> - Optimal trajectory</p></figcaption>
+</figure>
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_029.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 29</b> - Optimal trajectory</p></figcaption>
+</figure>
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_030.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 30</b> - Optimal trajectory</p></figcaption>
+</figure>
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_031.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 31</b> - Altitude profile along optimal trajectory</p></figcaption>
+</figure>
+
+The tool has a functionality to introduce up to two safety lines as additional constraints in the optimization process. A safety line is a segment which delimits the safety zone where all the aircraft should remain at all times. Surpassing a safety line during the race implies instant disqualification for the pilot. In the example below, a safety line is introduced in the 3D sector of Abu Dhabi 2017 race track.
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_032.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 32</b> - 3D segment with one safety line</p></figcaption>
+</figure>
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_033.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 33</b> - Initial trajectory assistant</p></figcaption>
+</figure>
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_034.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 34</b> - Optimal trajectory (no wind)</p></figcaption>
+</figure>
+
+In this situation, a turn towards the right is more optimal, given that the presence of the safety line would force to make a really tight turn towards the left. However, this is the result if the air is calm. Wind intensity and heading direction can be modified in the options tab.
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_035.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 35</b> - Optimal trajectory (with wind)</p></figcaption>
+</figure>
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_036.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 36</b> - Distance to safety line along the optimal trajectory</p></figcaption>
+</figure>
+
+This time the presence of strong winds towards the North make more optimal the turn towards the left, approaching to the safety line area. The optimal trajectory does not surpass the safety line, although it passes really close to it. Up to two simultaneous safety lines can be introduced in the tool.
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_037.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 37</b> - Initial trajectory for a track with two safety lines</p></figcaption>
+</figure>
+
+The weather forecast for the race day is usually not very precise. This makes an optimization process with different wind speeds, directions and initial velocities useful. In order to facilitate this iterative process to the user, the tool implements the *Auto* functionality. When activating this functionality the tool makes multiple optimizations changing the wind velocity and direction inside the specified range. The tool automatically generates images of all the resulting trajectories and states and stores them in a directory structure.
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_038.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 38</b> - Automatically generated optimization results directory structure</p></figcaption>
+</figure>
+
+Each plot is labelled with the resulting optimal time, initial speed and wind heading and speed.
+
 ## References
 
 [1] Steven
