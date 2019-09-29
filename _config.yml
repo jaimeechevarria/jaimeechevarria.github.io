@@ -21,7 +21,7 @@ navigation: # Navigation links
   - {name: 'CV', link: '/CV'}
 
 tagline: >
-  Artificial Intelligence - Robotics - Optimization - Graphical Design
+  Artificial Intelligence - Robotics - Optimization - Computer Vision
 
 hero_img: general/hero_img.jpg # Main background image: use the path from /assets/img/ => This will output /assets/img/general/hero_img.jpg
 
