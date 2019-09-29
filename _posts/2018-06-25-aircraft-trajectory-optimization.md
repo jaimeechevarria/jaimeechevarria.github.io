@@ -84,33 +84,47 @@ When an aircraft is flying straight (case A in figure 4), it’s weight ($W$) ne
 
 The radius of curvature is dictated by current velocity and the aircraft weight. The centripetal force in a moving body can be defined by
 
+<div class="mjx-chtml">
 $$ \small L{\cdot}\sin \left (\varphi \right) = m{\cdot}\frac{V^2}{R} \tag{1} $$
+</div>
 
 Where $R$ is the local radius of curvature. The lift component in the vertical axis needs to compensate the aircraft weight in order to maintain altitude.
 
+<div class="mjx-chtml">
 $$ \small L{\cdot}\cos \left (\varphi \right) = m{\cdot}g = W \tag{2} $$
+</div>
 
 These two equations can be combined to form
 
+<div class="mjx-chtml">
 $$ \small \varphi = \arctan \left(\frac{V^2}{R{\cdot}g} \right) \tag{3} $$
+</div>
 
 Given that
 
+<div class="mjx-chtml">
 $$ \small \cos \left(\arctan \left(x \right) \right) = \frac{1}{\sqrt{x^2 + 1}} \tag{4} $$
+</div>
 
 and that local curvature in a curve is defined as the inverse of the local radius
 
+<div class="mjx-chtml">
 $$ \small \kappa = \frac{1}{R} \tag{5} $$
+</div>
 
 then
 
+<div class="mjx-chtml">
 $$ \small \cos \left (\varphi \right) = \frac{1}{\sqrt{\left(\frac{V^2{\cdot}\kappa}{g} \right)^2 + 1}} \tag{6} $$
+</div>
 
 This equation will be useful when we derive another set of equations, corresponding to the longitudinal degree of freedom. 
 
 Local curvature of a bidimensional spline, which is parametrized in two degrees of freedom $x{\left (t \right)}$ and $y{\left (t \right)}$, can be calculated using the following formula.
 
+<div class="mjx-chtml">
 $$ \small \kappa{\left (t \right)} = \left| \frac{x'{\cdot}y''-y'{\cdot}x''}{\left(x'^2 + y'^2 \right)^{\frac{3}{2}}} \right| \tag{7}$$
+</div>
 
 Piecewise splines parametrized with third order polynomials are only continuous up until the first derivative. This means that there are discontinuities in the spline curvature at the control points joining each section of the spline. However this is not a problem for aerobatic planes, since their high manoeuvrability enables them to adapt closely to these trajectories even in the control point sections.
 
@@ -118,6 +132,7 @@ Up until this point, the only mathematical concepts used where geometric and tri
 
 Now we need to take into account the aerodynamic forces. We will model lift, $L$, and drag, $D$, forces using the following equations (more info in post []).
 
+<div class="mjx-chtml">
 $$
 \small
 \begin{gathered}
@@ -126,9 +141,11 @@ $$
 \end{gathered}
 \tag{8}
 $$
+</div>
 
 Where $q$ is the dynamic pressure, defined as $\frac{1}{2}{\cdot}\rho{\cdot}V^2$, being $\rho$ the air density and $V$ the total velocity of the aircraft. Variable $S$ corresponds to the wing reference surface. Variables $C_L$ and $C_D$ correspond to the lift coefficient and drag coefficient respectively. We will define those as
 
+<div class="mjx-chtml">
 $$
 \small
 \begin{gathered}
@@ -137,31 +154,41 @@ $$
 \end{gathered}
 \tag{9}
 $$
+</div>
 
 Where $\alpha$ refers to the aircraft angle of attack, $C_{L_0}$ and ${C_{D_0}}$ refer to the lift and drag coefficients at zero angle of attack, and $C_{L_{\alpha}}$ and ${K}$ are aerodynamic parameters dependant on the specific aircraft.
 
 Aicraft acceleration, $a$, can be modelled using Newton's first law of motion, having into account the vehicle mass, $m$.
 
+<div class="mjx-chtml">
 $$
 \small m{\cdot}a = T - D \tag{10}
 $$
+</div>
 
 We can discretize the trajectory of the aircraft along the spline in small sectors. Considering $V_i$ the velocity at the start of a sector, $V_{med}$ the velocity at the middle of the sector, and $l$ the length of the sector, combining equations (6-9) we can approximate the acceleration at each sector by:
 
+<div class="mjx-chtml">
 $$
 \small a \approxeq \frac{\Delta V}{\Delta t} = \frac{2{\cdot}\left(V_{med} - V_i \right)}{\frac{l}{V_{med}}} = \frac{T - \frac{1}{2}{\cdot}\rho{\cdot}V_{med}^2{\cdot}S{\cdot}\left(C_{D_0} + K{\cdot}\left(\frac{m{\cdot}g}{\frac{1}{2}{\cdot}\rho{\cdot}V_{med}^2{\cdot}S{\cdot}\cos \left(\varphi \right)} \right)^2 \right)}{m} \tag{11}
 $$
+</div>
 
 Where
 
+<div class="mjx-chtml">
 $$ \small \cos \left(\varphi \right) = \frac{1}{\sqrt{\left(\frac{V_{med}^2{\cdot}\kappa}{g} \right)^2 + 1}} \tag{12} $$
+</div>
 
 The solution of system of equations (10) and (11) for variable $V_{med}$ in order to find the medium velocity at each timestep reduces to a quartic equation, which can be solved using Ferrari's formula.
 
+<div class="mjx-chtml">
 $$ \small a{\cdot}V_{med}^4 + b{\cdot}V_{med}^3 + c{\cdot}V_{med}^2 + d{\cdot}V_{med} + e = 0 \tag{13} $$
+</div>
 
 Where coefficients $a$, $b$, $c$, $d$ and $e$ result in
 
+<div class="mjx-chtml">
 $$
 \small
 \begin{aligned}
@@ -173,9 +200,11 @@ $$
 \end{aligned}
 \tag{14}
 $$
+</div>
 
 Ferrari's formula uses the following relations which provide the analytic solution of the quartic equation [].
 
+<div class="mjx-chtml">
 $$
 \small
 \begin{aligned}
@@ -185,9 +214,9 @@ $$
 \end{aligned}
 \tag{15}
 $$
+</div>
 
-&nbsp;
-
+<div class="mjx-chtml">
 $$
 \small
 \begin{aligned}
@@ -196,9 +225,9 @@ $$
 \end{aligned}
 \tag{16}
 $$
+</div>
 
-&nbsp;
-
+<div class="mjx-chtml">
 $$
 \small
 \begin{aligned}
@@ -207,9 +236,9 @@ $$
 \end{aligned}
 \tag{17}
 $$
+</div>
 
-&nbsp;
-
+<div class="mjx-chtml">
 $$
 \small
 \begin{aligned}
@@ -218,9 +247,9 @@ $$
 \end{aligned}
 \tag{18}
 $$
+</div>
 
-&nbsp;
-
+<div class="mjx-chtml">
 $$
 \small
 \begin{aligned}
@@ -229,10 +258,13 @@ $$
 \end{aligned}
 \tag{19}
 $$
+</div>
 
 We are interested in the biggest real solution to the polynomic equation.
 
+<div class="mjx-chtml">
 $$ \small V_{med} = -{\frac {b}{4{\cdot}a}} + R + {\frac {1}{2}}{\sqrt {\left| -4{\cdot}R^{2}-2{\cdot}p-{\frac {q}{R}} \right|}} \tag{20} $$
+</div>
 
 Equation 19 defines the medium velocity at each small section of the spline as a function of the initial velocity at that section, the arclength of the section, aircraft thrust, local curvature of the spline, aerodynamic parameters such as $C_{D_0}$, $S$ or $K$ and physical properties of the system such as air density, acceleration due to gravity and the mass of the aircraft. Therefore, an iterative process can be made in order to calculate the velocity along an entire bidimensional spline. This process is similar to an integration of this variable along the spline, and if the section arclength is set to be sufficiently small then the associated errors of the numerical iterative process would become negligible.
 
@@ -285,12 +317,15 @@ In order to implement this technique, I used the library **falcon.m** []. This l
 
 A precise dynamic model is essential for this project. This section presents a more complete aerodynamic model which can be used to model the aircraft. Vehicle aerodynamics are modelled by taking into account forces and moments. On textbooks on aerodynamics [] it is shown that, for a body of given shape with a given orientation to the freestream flow, the forces and moments are proportional to the product of freestream mass density, $\rho$, the square of the freestream airspeed, $V$, and a characteristic area of the body. When modelling aircraft aerodynamics, the characteristic area of the body is typically selected as the wing reference surface, $S$. The product of the first two quantities has the dimensions of pressure and it is convenient to define the *dynamic pressure*, $q$, by
 
+<div class="mjx-chtml">
 $$ \small q=\frac{1}{2} \cdot \rho \cdot V^2 \tag{21} $$
+</div>
 
 We are now in a position to write down the mathematical models for the magnitudes of the forces and moments. The forces and moments acting on the complete aircraft are defined in terms of dimensionless aerodynamic coefficients in equations 2 and 3 respectively. Moment nondimensionalization is usually performed with additional parameters like wingspan, $b$, or wing mean chord, $c$.
 
 Aerodynamic forces
 
+<div class="mjx-chtml">
 $$
 \small
 \begin{gathered}
@@ -300,9 +335,11 @@ $$
 \end{gathered}
 \tag{22}
 $$
+</div>
 
 Aerodynamic moments
 
+<div class="mjx-chtml">
 $$
 \small
 \begin{gathered}
@@ -312,6 +349,7 @@ $$
 \end{gathered}
 \tag{23}
 $$
+</div>
 
 The aircraft aerodynamic coefficients are, in practice, specified as functions of the aerodynamic angles, velocity, and altitude. In addition, control surface deflections and propulsion system effects cause changes in the coefficients. A control surface deflection, $\delta_s$, effectively changes the camber of a wing, which changes the lift, drag, and moment.
 
@@ -335,6 +373,7 @@ Angle of attack and sideslip angle definitions are schematized in figures 11 and
 
 Aerodynamic angles can be defined as a function of the velocity components in body-axes coordinate system
 
+<div class="mjx-chtml">
 $$
 \small
 \begin{gathered}
@@ -344,11 +383,13 @@ $$
 \end{gathered}
 \tag{24}
 $$
+</div>
 
 Consequently, force and moment coefficients can be approximated respectively by equations 25 and 26 defined below.
 
 Aerodynamic forces coefficients
 
+<div class="mjx-chtml">
 $$
 \small
 \begin{gathered}
@@ -358,9 +399,11 @@ $$
 \end{gathered}
 \tag{25}
 $$
+</div>
 
 Aerodynamic moments coefficients
 
+<div class="mjx-chtml">
 $$
 \small
 \begin{gathered}
@@ -370,16 +413,29 @@ $$
 \end{gathered}
 \tag{26}
 $$
+</div>
 
 Where aerodynamic derivative $C_{x_y}$ provides information about the effect on the variable $x$ caused by a unitary increment in the variable $y$. Aerodynamic derivatives $C_{L_0}$ and $C_{D_0}$ are called zero angle of attack lift and parasite drag respectively, and they represent the lift and drag contribution which is not due to any other variable and is present even at zero angle of attack.
 
 The coefficients shown in equations 25 and 26 are called aerodynamic coefficients or derivatives, and they can be classified into three different groups:
 
-* **Stability derivatives** - $C_{L_0}, C_{L_{\alpha}}, C_{D_0}, K, C_{D_{\beta}}, C_{Y_{\beta}}, C_{l_{\beta}}, C_{m_0}, C_{m_{\alpha}}, C_{n_{\beta}}$.
+* Stability derivatives
 
-* **Control derivatives** - $C_{Y_{\delta r}}, C_{l_{\delta a}}, C_{l_{\delta r}}, C_{m_{\delta e}}, C_{n_{\delta a}}, C_{n_{\delta r}}$.
+<div class="mjx-chtml">
+$$C_{L_0}, C_{L_{\alpha}}, C_{D_0}, K, C_{D_{\beta}}, C_{Y_{\beta}}, C_{l_{\beta}}, C_{m_0}, C_{m_{\alpha}}, C_{n_{\beta}}$$
+</div>
 
-* **Damping derivatives** - $C_{l_p}, C_{l_r}, C_{m_q}, C_{m_{\dot{\alpha}}}, C_{n_p}, C_{n_r}$. 
+* Control derivatives
+
+<div class="mjx-chtml">
+$$C_{Y_{\delta r}}, C_{l_{\delta a}}, C_{l_{\delta r}}, C_{m_{\delta e}}, C_{n_{\delta a}}, C_{n_{\delta r}}$$
+</div>
+
+* Damping derivatives
+
+<div class="mjx-chtml">
+$$C_{l_p}, C_{l_r}, C_{m_q}, C_{m_{\dot{\alpha}}}, C_{n_p}, C_{n_r}$$
+</div>
 
 Note that terms concerning damping derivatives are always nondimensionalized in the moment coefficients equations. The nondimensionalization factor is dependant on the reference axis.
 
@@ -389,6 +445,7 @@ This section includes the aircraft kinematic equations [] which model the deriva
 
 Force equations
 
+<div class="mjx-chtml">
 $$
 \small
 \begin{gathered}
@@ -398,9 +455,11 @@ $$
 \end{gathered}
 \tag{27}
 $$
+</div>
 
 Kinematic equations
 
+<div class="mjx-chtml">
 $$
 \small
 \begin{gathered}
@@ -410,9 +469,11 @@ $$
 \end{gathered}
 \tag{28}
 $$
+</div>
 
 Moment equations
 
+<div class="mjx-chtml">
 $$
 \small
 \begin{gathered}
@@ -423,9 +484,11 @@ $$
 \end{gathered}
 \tag{29}
 $$
+</div>
 
 Navigation equations
 
+<div class="mjx-chtml">
 $$
 \def\cp{c\theta}
 \def\sp{s\theta}
@@ -441,6 +504,7 @@ $$
 \end{gathered}
 \tag{30}
 $$
+</div>
 
 ### Simplified model
 
@@ -448,6 +512,7 @@ Library *falcon.m* uses the software package *Ipopt* for large-scale nonlinear o
 
 Lift and drag coefficients
 
+<div class="mjx-chtml">
 $$
 \small
 \begin{gathered}
@@ -456,9 +521,11 @@ $$
 \end{gathered}
 \tag{31}
 $$
+</div>
 
 Lift and drag
 
+<div class="mjx-chtml">
 $$
 \small
 \begin{gathered}
@@ -467,9 +534,11 @@ $$
 \end{gathered}
 \tag{32}
 $$
+</div>
 
 Angular velocities in x and z body axes
 
+<div class="mjx-chtml">
 $$
 \small
 \begin{gathered}
@@ -478,17 +547,21 @@ $$
 \end{gathered}
 \tag{33}
 $$
+</div>
 
 Longitudinal acceleration
 
+<div class="mjx-chtml">
 $$
 \small
 \dot{V} = \left[T{\cdot}\cos{\left(\alpha \right)} - D + 2{\cdot}m{\cdot}g{\cdot}\left(q_1{\cdot}q_3 - q_0{\cdot}q_2 \right) \right] / m
 \tag{34}
 $$
+</div>
 
 Quaternion derivatives
 
+<div class="mjx-chtml">
 $$
 \small
 \begin{gathered}
@@ -499,9 +572,11 @@ $$
 \end{gathered}
 \tag{35}
 $$
+</div>
 
 Velocities
 
+<div class="mjx-chtml">
 $$
 \small
 \begin{gathered}
@@ -511,6 +586,7 @@ $$
 \end{gathered}
 \tag{36}
 $$
+</div>
 
 ### The tool
 
@@ -581,22 +657,22 @@ In order to provide graphical visualization of the resulting trajectories, compa
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_013.jpg" width="80%"></p>    
-    <figcaption><p align="center"><b>Figure 13</b> - FlighGear graphical visualization (1) </p></figcaption>
+    <figcaption><p align="center"><b>Figure 13</b> - FlighGear graphical visualization (view from vertical stabilizer) </p></figcaption>
 </figure>
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_014.jpg" width="80%"></p>    
-    <figcaption><p align="center"><b>Figure 14</b> - FlighGear graphical visualization (2) </p></figcaption>
+    <figcaption><p align="center"><b>Figure 14</b> - FlighGear graphical visualization (cockpit view) </p></figcaption>
 </figure>
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_015.jpg" width="80%"></p>    
-    <figcaption><p align="center"><b>Figure 15</b> - FlighGear graphical visualization (3) </p></figcaption>
+    <figcaption><p align="center"><b>Figure 15</b> - FlighGear graphical visualization (cockpit view) </p></figcaption>
 </figure>
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_016.jpg" width="80%"></p>    
-    <figcaption><p align="center"><b>Figure 16</b> - FlighGear graphical visualization (4) </p></figcaption>
+    <figcaption><p align="center"><b>Figure 16</b> - FlighGear graphical visualization (external view) </p></figcaption>
 </figure>
 
 A graphical user interface was developed to facilitate the configuration process.
@@ -659,13 +735,15 @@ Dynamic states visualization along the trajectory are automatically generated an
 
 Additionally, the optimal trajectory can be animated in FlightGear graphical engine by pressing the *Animate* button at the flight plan tab.
 
-<!-- TIPS: Get the iframe code in the youtube video -> share -> embed. Add ?rel=0 to not show related videos on playback. Embed the iframe in iframe-container to make the video responsive to resolution.
-Embed the iframe-container into a figure with figcaption to add the figure title.-->
+<!-- TIPS: Get the iframe code in the youtube video -> share -> embed. Add ?rel=0 to not show related videos on playback. Embed the iframe in
+iframe-container to make the video responsive to resolution. Embed the iframe-container into a figure with figcaption to add the figure title.
+The <br /> statement leaves a blank line between the video and the figure title.-->
 
 <figure>
     <div class="iframe-container">
         <iframe width="840" height="473" src="https://www.youtube.com/embed/Nt7LjeHMQb8?rel=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
+<br />
 <figcaption><p align="center"><b>Figure 25</b> - Optimal trajectory animation in FlightGear</p></figcaption>
 </figure>
 
