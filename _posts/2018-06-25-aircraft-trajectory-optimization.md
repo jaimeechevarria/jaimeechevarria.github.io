@@ -636,20 +636,38 @@ The quaternion-based model facilitates the convergence to a global minimum by re
 
 The initial trajectory does not only refer to positional trajectory, but also the trajectory of the dynamic states, such as thrust, longitudinal velocity, angle of attack or roll angle. Remember the method of direct collocation is based on approximating the state history with polynomial splines, so an initial spline should also be provided. One virtual point is appended between each pair of control waypoints (3 virtual points in case the segment has been set as 3D). This virtual points allow to adjust the initial trajectory more precisely.
 
-Once everything has been set the tool calculates the analytical gradients of the dynamic model using *MATLAB Symbolic Toolbox*, transforms the optimization problem into a nonlinear programming formulation, compiles this code in C++ using *MATLAB Coder* and calls solver *Ipopt* to execute the optimization process. Here are the results of our simple example (open in new tab for more detail).
+Once everything has been set the tool calculates the analytical gradients of the dynamic model using *MATLAB Symbolic Toolbox*, transforms the optimization problem into a nonlinear programming formulation, compiles this code in C++ using *MATLAB Coder* and calls solver *Ipopt* to execute the optimization process. Here are the results of this simple example (open in new tab for more detail).
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_022.png" width="80%"></p>    
     <figcaption><p align="center"><b>Figure 22</b> - Optimal trajectory (scale 100%)</p></figcaption>
 </figure>
 
-The aircraft is represented along the trajectory to help visualizing aircraft attitude along the track. In image 22 the aircraft is represented at real size, but it can barely be seen. This can be improved by rendering the aircraft four times bigger.
+The aircraft is represented along the optimal trajectory to help visualizing aircraft attitude along the track. In image 22 the aircraft is represented at real size, but it can barely be seen. This can be improved by rendering the aircraft four times bigger.
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_023.png" width="80%"></p>    
     <figcaption><p align="center"><b>Figure 23</b> - Optimal trajectory (scale 400%)</p></figcaption>
 </figure>
 
+Dynamic states visualization along the trajectory are automatically generated and can also be displayed. Roll is shown below as an example.
+
+<figure>
+    <p align="center"><img src="/assets/img/article_images/rbar_024.png" width="80%"></p>    
+    <figcaption><p align="center"><b>Figure 24</b> - Roll during optimal trajectory</p></figcaption>
+</figure>
+
+Additionally, the optimal trajectory can be animated in FlightGear graphical engine by pressing the *Animate* button at the flight plan tab.
+
+<!-- TIPS: Get the iframe code in the youtube video -> share -> embed. Add ?rel=0 to not show related videos on playback. Embed the iframe in iframe-container to make the video responsive to resolution.
+Embed the iframe-container into a figure with figcaption to add the figure title.-->
+
+<figure>
+    <div class="iframe-container">
+        <iframe width="840" height="473" src="https://www.youtube.com/embed/Nt7LjeHMQb8?rel=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+<figcaption><p align="center"><b>Figure 25</b> - Optimal trajectory animation in FlightGear</p></figcaption>
+</figure>
 
 ## References
 
