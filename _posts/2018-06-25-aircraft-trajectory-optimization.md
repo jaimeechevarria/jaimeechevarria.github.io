@@ -130,7 +130,7 @@ Piecewise splines parametrized with third order polynomials are only continuous 
 
 Up until this point, the only mathematical concepts used where geometric and trigonometric relations, as well as the concept of force equilibrium and the definitions of centripetal force and the curvature of a parametrized curve.
 
-Now we need to take into account the aerodynamic forces. We will model lift, $L$, and drag, $D$, forces using the following equations (more info in post []).
+Now we need to take into account the aerodynamic forces. We will model lift, $L$, and drag, $D$, forces using the following equations [[1]](#references).
 
 <div class="mjx-chtml">
 $$
@@ -202,7 +202,7 @@ $$
 $$
 </div>
 
-Ferrari's formula uses the following relations which provide the analytic solution of the quartic equation [].
+Ferrari's formula uses the following relations which provide the analytic solution of the quartic equation [[2]](#references).
 
 <div class="mjx-chtml">
 $$
@@ -270,7 +270,7 @@ Equation 19 defines the medium velocity at each small section of the spline as a
 
 Using this pipeline one could perform an optimization process in which bidimensional splines are generated to pass through $m$ control points (race pylons) and a total time is calculated for each of those splines, modifying the spline in order to minimize this parameter. The optimization should be performed to find a global minimum, since the complexity of the problem would originate many local minimums which could be a problem if using a local optimizer.
 
-The global optimizer I chose to solve this problem is a Genetic Algorithm. A genetic algorithm (GA) is a method for solving both constrained and unconstrained optimization problems based on a natural selection process that mimics biological evolution. The algorithm repeatedly modifies a population of individual solutions. At each step, the genetic algorithm randomly selects individuals from the current population and uses them as parents to produce the children for the next generation. Over successive generations, the population "evolves" toward an optimal solution. You can apply the genetic algorithm to solve problems that are not well suited for standard optimization algorithms, including problems in which the objective function is discontinuous, nondifferentiable, stochastic, or highly nonlinear [].
+The global optimizer I chose to solve this problem is a Genetic Algorithm. A genetic algorithm (GA) is a method for solving both constrained and unconstrained optimization problems based on a natural selection process that mimics biological evolution. The algorithm repeatedly modifies a population of individual solutions. At each step, the genetic algorithm randomly selects individuals from the current population and uses them as parents to produce the children for the next generation. Over successive generations, the population "evolves" toward an optimal solution. You can apply the genetic algorithm to solve problems that are not well suited for standard optimization algorithms, including problems in which the objective function is discontinuous, nondifferentiable, stochastic, or highly nonlinear [[3]](#references).
 
 I implemented this pipeline in the numerical computing environment MATLAB®. The code is accessible [here]. I tested the tool with a simple track example, which can be seen in the figure below.
 
@@ -307,15 +307,15 @@ This approach can be used to provide first approximations of track time, but is 
 
 The solution to this problem needs to take into account many elements. First of all the dynamics associated with a moving vehicle on Earth. In other hand the own vehicle aerodynamics and thrust dynamics, and their relations with the vehicle control surfaces. Also, the point constraints associated with the control points (roll limits, velocity limits...), as well as the path constraints requirements along the entire trajectory (max G-force limits, position constraints inside the safety flight zone...).
 
-One could try to apply a deep reinforcement learning method, like Deep Q-Learning. The goal of Q-learning is to learn a policy, which tells an agent what action to take under what circumstances. It does not require a model of the environment, and it can handle problems with stochastic transitions and rewards, without requiring adaptations []. However, the degree of complexity of the problem in hand is excessively high for this method. The space of possible states and actions is huge, making it impractical to apply this technique to optimize the entire trajectory.
+One could try to apply a deep reinforcement learning method, like Deep Q-Learning. The goal of Q-learning is to learn a policy, which tells an agent what action to take under what circumstances. It does not require a model of the environment, and it can handle problems with stochastic transitions and rewards, without requiring adaptations [[4]](#references). However, the degree of complexity of the problem in hand is excessively high for this method. The space of possible states and actions is huge, making it impractical to apply this technique to optimize the entire trajectory.
 
-Other approach to this optimal control problem is based on a technique called **direct collocation**. Direct collocation methods work by approximating the state and control trajectories using polynomial splines []. These methods are sometimes referred to as direct transcription. This technique can be used to transcribe the aicraft dynamics and all constraints into a problem which can be solved using **nonlinear programming**. In mathematics, nonlinear programming (NLP) is the process of solving an optimization problem where some of the constraints or the objective function are nonlinear.
+Other approach to this optimal control problem is based on a technique called **direct collocation**. Direct collocation methods work by approximating the state and control trajectories using polynomial splines [[5]](#references). These methods are sometimes referred to as direct transcription. This technique can be used to transcribe the aicraft dynamics and all constraints into a problem which can be solved using **nonlinear programming**. In mathematics, nonlinear programming (NLP) is the process of solving an optimization problem where some of the constraints or the objective function are nonlinear.
 
-In order to implement this technique, I used the library **falcon.m** []. This library is a free optimal control tool developed at the Institute of Flight System Dynamics at the Institute of Flight System Dynamics of the Technical University of Munich (TUM). It provides a MATLAB class library which allows to set-up, solve and analyze optimal control problems using numerical optimization methods. The code is optimized for usability and performance and enables the solution of high fidelity real-life optimal control problems with ease.
+In order to implement this technique, I used the library **falcon.m** [[6]](#references). This library is a free optimal control tool developed at the Institute of Flight System Dynamics at the Institute of Flight System Dynamics of the Technical University of Munich (TUM). It provides a MATLAB class library which allows to set-up, solve and analyze optimal control problems using numerical optimization methods. The code is optimized for usability and performance and enables the solution of high fidelity real-life optimal control problems with ease.
 
 ### Aerodynamic model
 
-A precise dynamic model is essential for this project. This section presents a more complete aerodynamic model which can be used to model the aircraft. Vehicle aerodynamics are modelled by taking into account forces and moments. On textbooks on aerodynamics [] it is shown that, for a body of given shape with a given orientation to the freestream flow, the forces and moments are proportional to the product of freestream mass density, $\rho$, the square of the freestream airspeed, $V$, and a characteristic area of the body. When modelling aircraft aerodynamics, the characteristic area of the body is typically selected as the wing reference surface, $S$. The product of the first two quantities has the dimensions of pressure and it is convenient to define the *dynamic pressure*, $q$, by
+A precise dynamic model is essential for this project. This section presents a more complete aerodynamic model which can be used to model the aircraft. Vehicle aerodynamics are modelled by taking into account forces and moments. On textbooks on aerodynamics [[7]](#references) it is shown that, for a body of given shape with a given orientation to the freestream flow, the forces and moments are proportional to the product of freestream mass density, $\rho$, the square of the freestream airspeed, $V$, and a characteristic area of the body. When modelling aircraft aerodynamics, the characteristic area of the body is typically selected as the wing reference surface, $S$. The product of the first two quantities has the dimensions of pressure and it is convenient to define the *dynamic pressure*, $q$, by
 
 <div class="mjx-chtml">
 $$ \small q=\frac{1}{2} \cdot \rho \cdot V^2 \tag{21} $$
@@ -441,7 +441,7 @@ Note that terms concerning damping derivatives are always nondimensionalized in 
 
 ### Aircraft Kinematics
 
-This section includes the aircraft kinematic equations [] which model the derivatives of the aircraft states in terms of the resulting forces and moments of the aerodynamic model, and of the states themselves.
+This section includes the aircraft kinematic equations [[1]](#references) which model the derivatives of the aircraft states in terms of the resulting forces and moments of the aerodynamic model, and of the states themselves.
 
 Force equations
 
@@ -508,7 +508,7 @@ $$
 
 ### Simplified model
 
-Library *falcon.m* uses the software package *Ipopt* for large-scale nonlinear optimization []. This software is designed to find local solutions of mathematical optimization problems for minimization of an objective function subject to constraints. It is written in C++ for efficiency. The dynamic model described in the previous two sections is complex, so the solution space tends to have numerous local solutions when using this complex model. This is a problem because *Ipopt* is a tool for local optimization, not global. In order to smooth the solution space and eliminate many local solutions, a simpler approximation is proposed.
+Library *falcon.m* uses the software package *Ipopt* for large-scale nonlinear optimization [[8]](#references). This software is designed to find local solutions of mathematical optimization problems for minimization of an objective function subject to constraints. It is written in C++ for efficiency. The dynamic model described in the previous two sections is complex, so the solution space tends to have numerous local solutions when using this complex model. This is a problem because *Ipopt* is a tool for local optimization, not global. In order to smooth the solution space and eliminate many local solutions, a simpler approximation is proposed [[9]](#references).
 
 Lift and drag coefficients
 
@@ -824,22 +824,22 @@ The weather forecast for the race day is usually not very precise. This makes an
 
 Each plot is labelled with the resulting optimal time, initial speed and wind heading and speed.
 
-## References
+### References
 
-[1] Steven
+**[1]** Brian L. Stevens, Frank L. Lewis, and Eric N. Johnson. *Aircraft Control and Simulation* (3rd ed.). Wiley, 2015.
 
-[] https://en.wikipedia.org/wiki/Quartic_function
+**[2]** [https://en.wikipedia.org/wiki/Quartic_function](https://en.wikipedia.org/wiki/Quartic_function)
 
-[] https://www.mathworks.com/discovery/genetic-algorithm.html
+**[3]** [https://www.mathworks.com/discovery/genetic-algorithm.html](https://www.mathworks.com/discovery/genetic-algorithm.html)
 
-[] https://en.wikipedia.org/wiki/Q-learning#Deep_Q-learning
+**[4]** [https://en.wikipedia.org/wiki/Q-learning#Deep_Q-learning](https://en.wikipedia.org/wiki/Q-learning#Deep_Q-learning)
 
-[] Betts, J.T.
+**[5]** John T. Betts. *Practical Methods for Optimal Control and Estimation Using Nonlinear Programming* (2nd ed.). SIAM, 2010.
 
-[] http://www.fsd.mw.tum.de/software/falcon-m/
+**[6]** [http://www.fsd.mw.tum.de/software/falcon-m/](http://www.fsd.mw.tum.de/software/falcon-m/)
 
-[] A. M. Kuethe and C. Y. Chow.Foundations of Aerodynamics. Wiley, 1984.
+**[7]** A. M. Kuethe and C. Y. Chow. *Foundations of Aerodynamics*. Wiley, 1984.
 
-[] https://github.com/coin-or/Ipopt
+**[8]** [https://github.com/coin-or/Ipopt](https://github.com/coin-or/Ipopt)
 
-[] Well, K.H. and Wever, U. A., ”Aircraft Trajectory Optimization using Quaternions - Comparison of a Nonlinear Programming and a Multiple Shooting Approach,” Proceedings IFAC 9th Triennial World Congress, Budapest, Hungary, 1984, pp. 1595-1602.
+**[9]** K.H. Well and U. A. Wever. *Aircraft Trajectory Optimization using Quaternions - Comparison of a Nonlinear Programming and a Multiple Shooting Approach*. Proceedings IFAC 9th Triennial World Congress, Budapest, Hungary, 1984, pp. 1595-1602.
