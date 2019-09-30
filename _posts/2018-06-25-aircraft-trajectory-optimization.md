@@ -36,6 +36,7 @@ The problem is not trivial. Let’s start from the beginning.
     * [Multiple segments](#multiple-segments)
     * [Safety lines and wind](#safety-lines-and-wind)
     * [Automatic functionality](#automatic-functionality)
+* [Source Code](#source-code)
 * [References](#references)
 
 ### What is the objective?
@@ -856,6 +857,10 @@ The weather forecast for the race day is usually not very precise. This makes an
 </figure>
 
 Each plot is labelled with the resulting optimal time, initial speed and wind heading and speed.
+
+### Source Code
+
+This application is open-source and licensed under the MIT license. [https://github.com/fidelechevarria/OptimAir](https://github.com/fidelechevarria/OptimAir)
 
 ### References
 
