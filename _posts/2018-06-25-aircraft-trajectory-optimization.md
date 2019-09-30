@@ -20,6 +20,24 @@ In early 2018 I started working in a personal project to develop an analysis too
 
 The problem is not trivial. Let’s start from the beginning.
 
+### Table of Contents
+
+* [What is the objective?](#what-is-the-objective)
+* [A simplistic approach](#a-simplistic-approach)
+* [More complex approaches](#more-complex-approaches)
+* [Aerodynamic model](#aerodynamic-model)
+* [Aircraft Kinematics](#aircraft-kinematics)
+* [The tool](#the-tool)
+    * [FlightGear graphical visualization](#flightgear-graphical-visualization)
+    * [Graphical user interface](#graphical-user-interface)
+    * [Initial trajectory](#initial-trajectory)
+    * [Optimization](#optimization)
+    * [Visualization of results](#visualization-of-results)
+    * [Multiple segments](#multiple-segments)
+    * [Safety lines and wind](#safety-lines-and-wind)
+    * [Automatic functionality](#automatic-functionality)
+* [References](#references)
+
 ### What is the objective?
 
 Races usually have two types of obstacles: Airgates of single or double pylons. Pilots are required to fly near the single pylons and between the double pylons, following a predetermined route as fast as possible.
@@ -303,7 +321,7 @@ The track includes five control waypoints. In order to solve the problem it is n
 
 This approach can be used to provide first approximations of track time, but is not precise enough to be practical in real races. More elements can be added to improve the pipeline, such as adding the third degree of freedom of altitude, taking into account more aerodynamic coefficients like the lift coefficient due to angle of attack, $C_{L_\alpha}$, and modelling these coefficients as a function of velocity using look-up tables.
 
-### Other approaches
+### More complex approaches
 
 The solution to this problem needs to take into account many elements. First of all the dynamics associated with a moving vehicle on Earth. In other hand the own vehicle aerodynamics and thrust dynamics, and their relations with the vehicle control surfaces. Also, the point constraints associated with the control points (roll limits, velocity limits...), as well as the path constraints requirements along the entire trajectory (max G-force limits, position constraints inside the safety flight zone...).
 
@@ -638,7 +656,6 @@ states_dot = [T_dot; V_dot; alpha_dot; q0_dot; q1_dot; q2_dot; q3_dot; x_dot; y_
 end
 ```
 
-
 The tool *falcon.m* uses *Matlab Symbolic Toolbox* to find the analytic gradients of the objective function. This task can become complex if the entire dynamic model is considered. In order to facilitate the gradient calculation, the quaternion-based model can be divided into small sections, each of which has an easier gradient calculation and can be all concatenated when finished. This divide and conquer strategy speeds up execution time and decreases the probability of not finding a solution.
 
 Next, the constraints should be implemented into the tool. Constraints are implemented into two types:
@@ -652,6 +669,8 @@ The optimal control problem is divided into two fronts:
 * Segment optimization: Optimization for a trajectory segment joining a control waypoint with the next one.
 
 * Trajectory optimization: Trajectory segments are optimized sequentially in order to obtain an optimal control strategy for the entire trajectory. Each new segment has the initial conditions equal to the final conditions of the previous segment. This logic is not optimal, since the solver is optimizing each segment independently of the future segments. Nevertheless, the results are almost optimal given that the segments are significantly big. A future tool improvement could be to connect each segment optimization pipeline in order to have into account the N following segments (*falcon.m* already implements this functionality).
+
+#### FlightGear graphical visualization
 
 In order to provide graphical visualization of the resulting trajectories, compatibility with *FlightGear* open source flight simulator has been implemented in the tool. This also allows to manually test the dynamic model using a Joystick. The graphical visualization engine receives the aircraft's position and attitude from the MATLAB tool via a UDP socket at 60 Hz.
 
@@ -674,6 +693,8 @@ In order to provide graphical visualization of the resulting trajectories, compa
     <p align="center"><img src="/assets/img/article_images/rbar_016.jpg" width="80%"></p>    
     <figcaption><p align="center"><b>Figure 16</b> - FlighGear graphical visualization (external view) </p></figcaption>
 </figure>
+
+#### Graphical user interface
 
 A graphical user interface was developed to facilitate the configuration process.
 
@@ -703,6 +724,8 @@ Dynamic model tab conatins all the configuration parameters related with the aer
 
 Options tab contains configuration parameters related to the optimization logic, as well as to the graphical visualization properties.
 
+#### Initial trajectory
+
 The quaternion-based model facilitates the convergence to a global minimum by reducing the number of local minima in the solution space. However, in order to increase the probability of achieving this global minimum, it is necessary to provide an initial trajectory which is close to the solution. An assistant has been implemented in order to allow the user to set an approximate initial trajectory.
 
 <figure>
@@ -711,6 +734,8 @@ The quaternion-based model facilitates the convergence to a global minimum by re
 </figure>
 
 The initial trajectory does not only refer to positional trajectory, but also the trajectory of the dynamic states, such as thrust, longitudinal velocity, angle of attack or roll angle. Remember the method of direct collocation is based on approximating the state history with polynomial splines, so an initial spline should also be provided. One virtual point is appended between each pair of control waypoints (3 virtual points in case the segment has been set as 3D). This virtual points allow to adjust the initial trajectory more precisely.
+
+#### Optimization
 
 Once everything has been set the tool calculates the analytical gradients of the dynamic model using *MATLAB Symbolic Toolbox*, transforms the optimization problem into a nonlinear programming formulation, compiles this code in C++ using *MATLAB Coder* and calls solver *Ipopt* to execute the optimization process. Here are the results of this simple example (open in new tab for more detail).
 
@@ -725,6 +750,8 @@ The aircraft is represented along the optimal trajectory to help visualizing air
     <p align="center"><img src="/assets/img/article_images/rbar_023.png" width="80%"></p>    
     <figcaption><p align="center"><b>Figure 23</b> - Optimal trajectory (scale 400%)</p></figcaption>
 </figure>
+
+#### Visualization of results
 
 Dynamic states visualization along the trajectory are automatically generated and can also be displayed. Roll is shown below as an example.
 
@@ -746,6 +773,8 @@ The <br /> statement leaves a blank line between the video and the figure title.
 <br />
 <figcaption><p align="center"><b>Figure 25</b> - Optimal trajectory animation in FlightGear</p></figcaption>
 </figure>
+
+#### Multiple segments
 
 The example shown corresponds to the 3D segment of Abu Dhabi Red Bull Air Race 2017 track. This optimization was performed on a single segment. Multiple control waypoints can be set in order to perform an optimization of the entire track composed of various segments. An example race track with six control waypoints is shown in the following figures.
 
@@ -778,6 +807,8 @@ The example shown corresponds to the 3D segment of Abu Dhabi Red Bull Air Race 2
     <p align="center"><img src="/assets/img/article_images/rbar_031.png" width="80%"></p>    
     <figcaption><p align="center"><b>Figure 31</b> - Altitude profile along optimal trajectory</p></figcaption>
 </figure>
+
+#### Safety lines and wind
 
 The tool has a functionality to introduce up to two safety lines as additional constraints in the optimization process. A safety line is a segment which delimits the safety zone where all the aircraft should remain at all times. Surpassing a safety line during the race implies instant disqualification for the pilot. In the example below, a safety line is introduced in the 3D sector of Abu Dhabi 2017 race track.
 
@@ -814,6 +845,8 @@ This time the presence of strong winds towards the North make more optimal the t
     <p align="center"><img src="/assets/img/article_images/rbar_037.png" width="80%"></p>    
     <figcaption><p align="center"><b>Figure 37</b> - Initial trajectory for a track with two safety lines</p></figcaption>
 </figure>
+
+#### Automatic functionality
 
 The weather forecast for the race day is usually not very precise. This makes an optimization process with different wind speeds, directions and initial velocities useful. In order to facilitate this iterative process to the user, the tool implements the *Auto* functionality. When activating this functionality the tool makes multiple optimizations changing the wind velocity and direction inside the specified range. The tool automatically generates images of all the resulting trajectories and states and stores them in a directory structure.
 
