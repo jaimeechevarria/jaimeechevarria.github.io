@@ -80,7 +80,7 @@ But what type of mathematical curve may an aircraft trajectory look like? One op
     <figcaption><p align="center"><b>Figure 3</b> - Cubic spline</p></figcaption>
 </figure>
 
-A cubic spline is a spline constructed of piecewise third-order polynomials which pass through a set of $m$ control points. The second derivative of each polynomial is commonly set to zero at the endpoints, since this provides a boundary condition that completes the system of $m-2$ equations. This produces a so-called "natural" cubic spline and leads to a simple tridiagonal system which can be solved easily to give the coefficients of the polynomials [[3]](#references).
+A cubic spline is a spline constructed of piecewise third-order polynomials which pass through a set of $m$ control points. The second derivative of each polynomial is commonly set to zero at the endpoints, since this provides a boundary condition that completes the system of $m-2$ equations. This produces a so-called "natural" cubic spline and leads to a simple tridiagonal system which can be solved easily to give the coefficients of the polynomials [[1]](#references).
 
 The trajectories can be approximated by bidimensional splines parametrized in two degrees of freedom $x$ and $y$. This is, there's a third degree polynomial defining $x{\left (t \right)}$, and a third degree polynomial defining $y{\left (t \right)}$. These curves provide a good approximation of the real trajectories. Curves of higher order could approach the trajectories more precisely, but they unnecessarily increase the complexity of the optimization problem and increase the probability of convergence to a local minimum instead of a global minimum. Order 3 polynomials provide a good balance between complexity and precision.
 
@@ -147,7 +147,7 @@ Piecewise splines parametrized with third order polynomials are only continuous 
 
 Up until this point, the only mathematical concepts used where geometric and trigonometric relations, as well as the concept of force equilibrium and the definitions of centripetal force and curvature of a parametrized curve.
 
-Now we need to take into account the aerodynamic forces. We will model lift, $L$, and drag, $D$, forces using the following equations [[1]](#references).
+Now we need to take into account the aerodynamic forces. We will model lift, $L$, and drag, $D$, forces using the following equations [[2]](#references).
 
 <div class="mjx-chtml">
 $$
@@ -219,7 +219,7 @@ $$
 $$
 </div>
 
-Ferrari's formula uses the following relations which provide the analytic solution of the quartic equation [[2]](#references).
+Ferrari's formula uses the following relations which provide the analytic solution of the quartic equation [[3]](#references).
 
 <div class="mjx-chtml">
 $$
@@ -460,7 +460,7 @@ Note that terms concerning damping derivatives are always nondimensionalized in 
 
 ### Aircraft Kinematics
 
-This section includes the aircraft kinematic equations which model the derivatives of the aircraft states in terms of the resulting forces and moments of the aerodynamic model, and of the states themselves [[1]](#references).
+This section includes the aircraft kinematic equations which model the derivatives of the aircraft states in terms of the resulting forces and moments of the aerodynamic model, and of the states themselves [[2]](#references).
 
 <u>Force equations</u>
 
@@ -872,11 +872,11 @@ This application is open-source and licensed under the MIT license. [https://git
 
 ### References
 
-**[1]** Brian L. Stevens, Frank L. Lewis, and Eric N. Johnson. *Aircraft Control and Simulation* (3rd ed.). Wiley, 2015.
+**[1]** [http://mathworld.wolfram.com/CubicSpline.html](http://mathworld.wolfram.com/CubicSpline.html)
 
-**[2]** [https://en.wikipedia.org/wiki/Quartic_function](https://en.wikipedia.org/wiki/Quartic_function)
+**[2]** Brian L. Stevens, Frank L. Lewis, and Eric N. Johnson. *Aircraft Control and Simulation* (3rd ed.). Wiley, 2015.
 
-**[3]** [http://mathworld.wolfram.com/CubicSpline.html](http://mathworld.wolfram.com/CubicSpline.html)
+**[3]** [https://en.wikipedia.org/wiki/Quartic_function](https://en.wikipedia.org/wiki/Quartic_function)
 
 **[4]** [https://www.mathworks.com/discovery/genetic-algorithm.html](https://www.mathworks.com/discovery/genetic-algorithm.html)
 
