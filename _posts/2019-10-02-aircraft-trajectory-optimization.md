@@ -584,7 +584,7 @@ $$
 $$
 </div>
 
-The quaternions are related to the Euler-angles [[12]](#references) by
+The quaternions are related to the euler angles [[12]](#references) by
 
 <div class="mjx-chtml">
 $$
