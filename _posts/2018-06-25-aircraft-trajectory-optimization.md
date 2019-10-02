@@ -584,8 +584,9 @@ $$
 $$
 </div>
 
-The quaternions are related to the Euler-angles [[12]](#references)[[13]](#references) by
+The quaternions are related to the Euler-angles [[12]](#references) by
 
+<div class="mjx-chtml">
 $$
 \small
 \begin{gathered}
@@ -596,18 +597,21 @@ $$
 \end{gathered}
 \tag{35}
 $$
+</div>
 
 or
 
+<div class="mjx-chtml">
 $$
 \small
 \begin{gathered}
-     \varphi = \arctan{\frac{2(q_{0}{\cdot}q_{1}+q_{2}{\cdot}q_{3})}{1-2{\cdot}(q_{1}^{2}+q_{2}^{2})}} \\
-     \theta = \arcsin(2(q_{0}{\cdot}q_{2}-q_{3}{\cdot}q_{1})) \\
-     \psi = \arctan{\frac{2(q_{0}{\cdot}q_{3}+q_{1}{\cdot}q_{2})}{1-2{\cdot}(q_{2}^{2}+q_{3}^{2})}} \\
+     \varphi = \arctan{\left(\frac{2{\cdot}(q_{0}{\cdot}q_{1}+q_{2}{\cdot}q_{3})}{1-2{\cdot}(q_{1}^{2}+q_{2}^{2})}\right)} \\
+     \theta = \arcsin{\left(2{\cdot}(q_{0}{\cdot}q_{2}-q_{3}{\cdot}q_{1})\right)} \\
+     \psi = \arctan{\left(\frac{2{\cdot}(q_{0}{\cdot}q_{3}+q_{1}{\cdot}q_{2})}{1-2{\cdot}(q_{2}^{2}+q_{3}^{2})}\right)} \\
 \end{gathered}
 \tag{36}
 $$
+</div>
 
 This equations of motion result to be much simpler than the complete aerodynamics and kinematics systems described in previous sections. This sacrifices model accuracy in turn for a smoother solution space which increases the probability of finding a global minimum if the initial conditions are set to be close enough, given that this solution space has less local minimums where the solver can converge.
 
@@ -891,5 +895,3 @@ This application is open-source and licensed under the MIT license. [https://git
 **[11]** K.H. Well and U. A. Wever. *Aircraft Trajectory Optimization using Quaternions - Comparison of a Nonlinear Programming and a Multiple Shooting Approach*. Proceedings IFAC 9th Triennial World Congress, Budapest, Hungary, 1984, pp. 1595-1602.
 
 **[12]** W. G. Breckenridge. *Quaternions proposed standard conventions*. NASA Jet Propulsion Laboratory, Technical Report, 1979.
-
-**[13]** [https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles](https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles)
