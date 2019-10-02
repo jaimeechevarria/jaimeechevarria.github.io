@@ -58,8 +58,6 @@ There exist several restrictions to take into consideration, including the follo
 
 How could we approach this problem?
 
-<!-- &nbsp; -->
-
 ### A simplistic approach
 
 This is an optimization problem with several types of constraints. We need to find a way to simplify the problem in order to reduce complexity.
@@ -73,16 +71,16 @@ Let’s try a simple approach by making some hypotheses:
 * When an aircraft is performing a turn, lift needs to be increased in order to maintain altitude.
 Turning angle (**roll**) is dictated by the **curvature** of the aircraft trajectory.
 
-Given this statements, a direct relation can be extrapolated between the trajectory local curvature and the aircraft acceleration at that location.
+Given this statements, a direct relation can be extrapolated between the trajectory local curvature and the aircraft longitudinal acceleration at that location.
 
-But what type of mathematical curve may an aircraft trajectory look like? One option are **cubic splines**.
+But what type of mathematical curve may an aircraft trajectory look like? One option is a **cubic spline**.
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_003.png" width="80%"></p>    
     <figcaption><p align="center"><b>Figure 3</b> - Cubic spline</p></figcaption>
 </figure>
 
-A cubic spline is a spline constructed of piecewise third-order polynomials which pass through a set of $m$ control points. The second derivative of each polynomial is commonly set to zero at the endpoints, since this provides a boundary condition that completes the system of $m-2$ equations. This produces a so-called "natural" cubic spline and leads to a simple tridiagonal system which can be solved easily to give the coefficients of the polynomials [3].
+A cubic spline is a spline constructed of piecewise third-order polynomials which pass through a set of $m$ control points. The second derivative of each polynomial is commonly set to zero at the endpoints, since this provides a boundary condition that completes the system of $m-2$ equations. This produces a so-called "natural" cubic spline and leads to a simple tridiagonal system which can be solved easily to give the coefficients of the polynomials [[3]](#references).
 
 The trajectories can be approximated by bidimensional splines parametrized in two degrees of freedom $x$ and $y$. This is, there's a third degree polynomial defining $x{\left (t \right)}$, and a third degree polynomial defining $y{\left (t \right)}$. These curves provide a good approximation of the real trajectories. Curves of higher order could approach the trajectories more precisely, but they unnecessarily increase the complexity of the optimization problem and increase the probability of convergence to a local minimum instead of a global minimum. Order 3 polynomials provide a good balance between complexity and precision.
 
@@ -94,7 +92,7 @@ Now, let's analyse the effect of turning angle (roll) in an aircraft lift while 
     <figcaption><p align="center"><b>Figure 4</b> - Effect of roll on lift during level flight</p></figcaption>
 </figure>
 
-When an aircraft is flying straight (case A in figure 4), it’s weight ($W$) needs to be compensated by the generated lift ($L$). However, when an aircraft is turning (case B in figure 4), lift needs to be increased in order to be able to compensate the weight. The lift component in the vertical axis compensates the aircraft weight. This component is $ L{\cdot}\cos \left (\varphi \right) $. An additional component is generated in the horizontal axis, $ L{\cdot}\sin \left (\varphi \right) $. This component represents a centripetal force which causes the aircraft trajectory to turn.
+When an aircraft is flying straight (4A), it’s weight, $W$, needs to be compensated by the generated lift, $L$. However, when an aircraft is turning (4B), lift needs to be increased in order to be able to compensate the weight. The lift component in the vertical axis compensates the aircraft weight. This component is $ L{\cdot}\cos \left (\varphi \right) $. An additional component is generated in the horizontal axis, $ L{\cdot}\sin \left (\varphi \right) $. This component represents a centripetal force which causes the aircraft trajectory azimuth to change, achieving the turn.
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_005.png" width="80%"></p>    
@@ -147,7 +145,7 @@ $$ \small \kappa{\left (t \right)} = \left| \frac{x'{\cdot}y''-y'{\cdot}x''}{\le
 
 Piecewise splines parametrized with third order polynomials are only continuous up until the first derivative. This means that there are discontinuities in the spline curvature at the control points joining each section of the spline. However this is not a problem for aerobatic planes, since their high manoeuvrability enables them to adapt closely to these trajectories even in the control point sections.
 
-Up until this point, the only mathematical concepts used where geometric and trigonometric relations, as well as the concept of force equilibrium and the definitions of centripetal force and the curvature of a parametrized curve.
+Up until this point, the only mathematical concepts used where geometric and trigonometric relations, as well as the concept of force equilibrium and the definitions of centripetal force and curvature of a parametrized curve.
 
 Now we need to take into account the aerodynamic forces. We will model lift, $L$, and drag, $D$, forces using the following equations [[1]](#references).
 
@@ -185,7 +183,7 @@ $$
 $$
 </div>
 
-We can discretize the trajectory of the aircraft along the spline in small sectors. Considering $V_i$ the velocity at the start of a sector, $V_{med}$ the velocity at the middle of the sector, and $l$ the length of the sector, combining equations (6-9) we can approximate the acceleration at each sector by:
+We can discretize the trajectory of the aircraft along the spline in small sectors. Considering $V_i$ the velocity at the start of a sector, $V_{med}$ the velocity at the middle point of the sector, and $l$ the length of the sector, combining equations (6-9) we can approximate the acceleration at each sector by:
 
 <div class="mjx-chtml">
 $$
@@ -287,18 +285,18 @@ $$ \small V_{med} = -{\frac {b}{4{\cdot}a}} + R + {\frac {1}{2}}{\sqrt {\left| -
 
 Equation 19 defines the medium velocity at each small section of the spline as a function of the initial velocity at that section, the arclength of the section, aircraft thrust, local curvature of the spline, aerodynamic parameters such as $C_{D_0}$, $S$ or $K$ and physical properties of the system such as air density, acceleration due to gravity and the mass of the aircraft. Therefore, an iterative process can be made in order to calculate the velocity along an entire bidimensional spline. This process is similar to an integration of this variable along the spline, and if the section arclength is set to be sufficiently small then the associated errors of the numerical iterative process would become negligible.
 
-Using this pipeline one could perform an optimization process in which bidimensional splines are generated to pass through $m$ control points (race pylons) and a total time is calculated for each of those splines, modifying the spline in order to minimize this parameter. The optimization should be performed to find a global minimum, since the complexity of the problem would originate many local minimums which could be a problem if using a local optimizer.
+Using this pipeline one could perform an optimization process in which bidimensional splines are generated to pass through $m$ control points (race pylons) and a total time is calculated and associated to each of those splines, optimising the spline parameters in order to minimize the total trajectory associated time. The optimization should find a global minimum, not local. The complexity of the problem may originate many local minimums which could be a problem if using a local optimizer and the initial conditions are not close enough to the global minimum.
 
-The global optimizer I chose to solve this problem is a Genetic Algorithm. A genetic algorithm (GA) is a method for solving both constrained and unconstrained optimization problems based on a natural selection process that mimics biological evolution. The algorithm repeatedly modifies a population of individual solutions. At each step, the genetic algorithm randomly selects individuals from the current population and uses them as parents to produce the children for the next generation. Over successive generations, the population "evolves" toward an optimal solution. You can apply the genetic algorithm to solve problems that are not well suited for standard optimization algorithms, including problems in which the objective function is discontinuous, nondifferentiable, stochastic, or highly nonlinear [[3]](#references).
+The global optimizer I chose to solve this problem is a Genetic Algorithm. A genetic algorithm (GA) is a method for solving both constrained and unconstrained optimization problems based on a natural selection process that mimics biological evolution. The algorithm repeatedly modifies a population of individual solutions. At each step, the genetic algorithm randomly selects individuals from the current population and uses them as parents to produce the children for the next generation. Over successive generations, the population "evolves" toward an optimal solution. You can apply the genetic algorithm to solve problems that are not well suited for standard optimization algorithms, including problems in which the objective function is discontinuous, nondifferentiable, stochastic, or highly nonlinear [[4]](#references). Using this solver, it is easier to converge to the global minimum instead of getting stuck in a not globally optimal local minimum.
 
-I implemented this pipeline in the numerical computing environment MATLAB®. The code is accessible [here]. I tested the tool with a simple track example, which can be seen in the figure below.
+I implemented this pipeline in the numerical computing environment MATLAB®. A link to the actual code is available in [Source Code](#source-code) section. I tested the tool with a simple air race track example, which can be observed in the figure below.
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_006.png" width="80%"></p>    
     <figcaption><p align="center"><b>Figure 6</b> - Track waypoints</p></figcaption>
 </figure>
 
-The track includes five control waypoints. In order to solve the problem it is necessary to impose a trajectory heading at each waypoint, where we can define the heading as $\arctan{\left(\frac{y'}{x'} \right)}$. This way, the order complexity of the problem reduces to the number of waypoints, $m$. The global minimum total time trajectory calculated by the tool can be observed in the following figures.
+The track includes five control waypoints. In order to solve the problem it is necessary to impose a trajectory heading at each waypoint, where we can define the heading as $\arctan{\left(y'/x' \right)}$. This way, the order complexity of the problem reduces to the number of waypoints, $m$. The global minimum total time trajectory calculated by the tool can be observed in the following figures.
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_007.png" width="80%"></p>    
@@ -320,21 +318,23 @@ The track includes five control waypoints. In order to solve the problem it is n
     <figcaption><p align="center"><b>Figure 10</b> - Flight distance along trajectory</p></figcaption>
 </figure>
 
-This approach can be used to provide first approximations of track time, but is not precise enough to be practical in real races. More elements can be added to improve the pipeline, such as adding the third degree of freedom of altitude, taking into account more aerodynamic coefficients like the lift coefficient due to angle of attack, $C_{L_\alpha}$, and modelling these coefficients as a function of velocity using look-up tables.
+This approach can be used to provide first approximations of track time, but is not precise enough to be practical in real races. More elements need to be added in order to improve the pipeline, such as adding the third degree of freedom (altitude), taking into account more aerodynamic coefficients like the lift coefficient due to angle of attack, $C_{L_\alpha}$, or modelling these coefficients as a function of velocity using look-up tables.
 
 ### More complex approaches
 
 The solution to this problem needs to take into account many elements. First of all the dynamics associated with a moving vehicle on Earth. In other hand the own vehicle aerodynamics and thrust dynamics, and their relations with the vehicle control surfaces. Also, the point constraints associated with the control points (roll limits, velocity limits...), as well as the path constraints requirements along the entire trajectory (max G-force limits, position constraints inside the safety flight zone...).
 
-One could try to apply a deep reinforcement learning method, like Deep Q-Learning. The goal of Q-learning is to learn a policy, which tells an agent what action to take under what circumstances. It does not require a model of the environment, and it can handle problems with stochastic transitions and rewards, without requiring adaptations [[4]](#references). However, the degree of complexity of the problem in hand is excessively high for this method. The space of possible states and actions is huge, making it impractical to apply this technique to optimize the entire trajectory.
+One could try to apply a deep reinforcement learning method, like Deep Q-Learning. The goal of Q-learning is to learn a policy, which tells an agent what action to take under what circumstances. It does not require a model of the environment, and it can handle problems with stochastic transitions and rewards, without requiring adaptations [[5]](#references). However, the degree of complexity of the problem in hand is excessively high for this method. The space of possible states and actions is huge, making it impractical to apply this technique to optimize the entire trajectory.
 
-Other approach to this optimal control problem is based on a technique called **direct collocation**. Direct collocation methods work by approximating the state and control trajectories using polynomial splines [[5]](#references). These methods are sometimes referred to as direct transcription. This technique can be used to transcribe the aicraft dynamics and all constraints into a problem which can be solved using **nonlinear programming**. In mathematics, nonlinear programming (NLP) is the process of solving an optimization problem where some of the constraints or the objective function are nonlinear.
+Another approach to this optimal control problem is based on a technique called **direct collocation**. Direct collocation methods work by approximating the state and control trajectories using polynomial splines [[6]](#references). These methods are sometimes referred to as direct transcription. This technique can be used to transcribe the aicraft dynamics and all constraints into a problem which can be solved using **nonlinear programming**. In mathematics, nonlinear programming (NLP) is the process of solving an optimization problem where some of the constraints or the objective function are nonlinear.
 
-In order to implement this technique, I used the library **falcon.m** [[6]](#references). This library is a free optimal control tool developed at the Institute of Flight System Dynamics at the Institute of Flight System Dynamics of the Technical University of Munich (TUM). It provides a MATLAB class library which allows to set-up, solve and analyze optimal control problems using numerical optimization methods. The code is optimized for usability and performance and enables the solution of high fidelity real-life optimal control problems with ease.
+In order to implement this technique, I used the library **falcon.m** [[7]](#references). This library is a free optimal control tool developed at the Institute of Flight System Dynamics at the Institute of Flight System Dynamics of the Technical University of Munich (TUM). It provides a MATLAB® class library which allows to set-up, solve and analyze optimal control problems using numerical optimization methods. The code is optimized for usability and performance and enables the solution of high fidelity real-life optimal control problems with ease.
 
 ### Aerodynamic model
 
-A precise dynamic model is essential for this project. This section presents a more complete aerodynamic model which can be used to model the aircraft. Vehicle aerodynamics are modelled by taking into account forces and moments. On textbooks on aerodynamics [[7]](#references) it is shown that, for a body of given shape with a given orientation to the freestream flow, the forces and moments are proportional to the product of freestream mass density, $\rho$, the square of the freestream airspeed, $V$, and a characteristic area of the body. When modelling aircraft aerodynamics, the characteristic area of the body is typically selected as the wing reference surface, $S$. The product of the first two quantities has the dimensions of pressure and it is convenient to define the *dynamic pressure*, $q$, by
+A precise dynamic model is essential for this project. This section presents a complete aerodynamic model which can be used to model the aircraft.
+
+Vehicle aerodynamics are modelled by taking into account forces and moments. On textbooks on aerodynamics [[8]](#references) it is shown that, for a body of given shape with a given orientation to the freestream flow, the forces and moments are proportional to the product of freestream mass density, $\rho$, the square of the freestream airspeed, $V$, and a characteristic area of the body. When modelling aircraft aerodynamics, the characteristic area of the body is typically selected as the wing reference surface, $S$. The product of the first two quantities has the dimensions of pressure and it is convenient to define the *dynamic pressure*, $q$, by
 
 <div class="mjx-chtml">
 $$ \small q=\frac{1}{2} \cdot \rho \cdot V^2 \tag{21} $$
@@ -342,7 +342,7 @@ $$ \small q=\frac{1}{2} \cdot \rho \cdot V^2 \tag{21} $$
 
 We are now in a position to write down the mathematical models for the magnitudes of the forces and moments. The forces and moments acting on the complete aircraft are defined in terms of dimensionless aerodynamic coefficients in equations 2 and 3 respectively. Moment nondimensionalization is usually performed with additional parameters like wingspan, $b$, or wing mean chord, $c$.
 
-Aerodynamic forces
+<u>Aerodynamic forces</u>
 
 <div class="mjx-chtml">
 $$
@@ -356,7 +356,7 @@ $$
 $$
 </div>
 
-Aerodynamic moments
+<u>Aerodynamic moments</u>
 
 <div class="mjx-chtml">
 $$
@@ -374,20 +374,20 @@ The aircraft aerodynamic coefficients are, in practice, specified as functions o
 
 Aerodynamic angles is the name given to two different angles:
 
-* The **angle of attack**, $\alpha$, specifies the angle between the chord line of the wing of a fixed-wing aircraft and the vector representing the relative motion between the aircraft and the atmosphere. It is the primary parameter in longitudinal stability considerations.
+* The **angle of attack**, $\alpha$, specifies the angle between the chord line of the wing of a fixed-wing aircraft and the freestream velocity vector. It is the primary parameter in longitudinal stability considerations.
 
-* The **sideslip angle**, $\beta$, specifies the angle made by the velocity vector to the longitudinal axis of the vehicle in the local horizontal plane (North/East). The sideslip angle is essentially the directional angle of attack of the airplane. It is the primary parameter in directional stability considerations.
+* The **sideslip angle**, $\beta$, specifies the angle between the freestream velocity vector to the longitudinal axis of the vehicle when projected in the horizontal plane. The sideslip angle is essentially the directional angle of attack of the airplane. It is the primary parameter in directional stability considerations.
 
 Angle of attack and sideslip angle definitions are schematized in figures 11 and 12.
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_011.png" width="80%"></p>    
-    <figcaption><p align="center"><b>Figure 11</b> - Angle of attack (source: Wikipedia)</p></figcaption>
+    <figcaption><p align="center"><b>Figure 11</b> - Angle of attack</p></figcaption>
 </figure>
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_012.png" width="80%"></p>    
-    <figcaption><p align="center"><b>Figure 12</b> - Sideslip angle (source: Wikipedia)</p></figcaption>
+    <figcaption><p align="center"><b>Figure 12</b> - Sideslip angle</p></figcaption>
 </figure>
 
 Aerodynamic angles can be defined as a function of the velocity components in body-axes coordinate system
@@ -404,9 +404,9 @@ $$
 $$
 </div>
 
-Consequently, force and moment coefficients can be approximated respectively by equations 25 and 26 defined below.
+Consequently, force and moment coefficients can be approximated by equations 25 and 26 respectively, which are defined below.
 
-Aerodynamic forces coefficients
+<u>Aerodynamic forces coefficients</u>
 
 <div class="mjx-chtml">
 $$
@@ -420,7 +420,7 @@ $$
 $$
 </div>
 
-Aerodynamic moments coefficients
+<u>Aerodynamic moments coefficients</u>
 
 <div class="mjx-chtml">
 $$
@@ -434,23 +434,23 @@ $$
 $$
 </div>
 
-Where aerodynamic derivative $C_{x_y}$ provides information about the effect on the variable $x$ caused by a unitary increment in the variable $y$. Aerodynamic derivatives $C_{L_0}$ and $C_{D_0}$ are called zero angle of attack lift and parasite drag respectively, and they represent the lift and drag contribution which is not due to any other variable and is present even at zero angle of attack.
+Aerodynamic derivative $C_{x_y}$ provides information about the effect on the variable $x$ caused by a unitary increment in the variable $y$. Aerodynamic derivatives $C_{L_0}$ and $C_{D_0}$ are called zero angle of attack lift and parasite drag respectively, and they represent the lift and drag contribution which is not due to any other variable and is present even at zero angle of attack.
 
-The coefficients shown in equations 25 and 26 are called aerodynamic coefficients or derivatives, and they can be classified into three different groups:
+The coefficients shown in equations 25 and 26 are usually named *aerodynamic coefficients* or *aerodynamic derivatives*, and they can be classified into three different groups:
 
-* Stability derivatives
+<u>Stability derivatives</u>
 
 <div class="mjx-chtml">
 $$C_{L_0}, C_{L_{\alpha}}, C_{D_0}, K, C_{D_{\beta}}, C_{Y_{\beta}}, C_{l_{\beta}}, C_{m_0}, C_{m_{\alpha}}, C_{n_{\beta}}$$
 </div>
 
-* Control derivatives
+<u>Control derivatives</u>
 
 <div class="mjx-chtml">
 $$C_{Y_{\delta r}}, C_{l_{\delta a}}, C_{l_{\delta r}}, C_{m_{\delta e}}, C_{n_{\delta a}}, C_{n_{\delta r}}$$
 </div>
 
-* Damping derivatives
+<u>Damping derivatives</u>
 
 <div class="mjx-chtml">
 $$C_{l_p}, C_{l_r}, C_{m_q}, C_{m_{\dot{\alpha}}}, C_{n_p}, C_{n_r}$$
@@ -460,9 +460,9 @@ Note that terms concerning damping derivatives are always nondimensionalized in 
 
 ### Aircraft Kinematics
 
-This section includes the aircraft kinematic equations [[1]](#references) which model the derivatives of the aircraft states in terms of the resulting forces and moments of the aerodynamic model, and of the states themselves.
+This section includes the aircraft kinematic equations which model the derivatives of the aircraft states in terms of the resulting forces and moments of the aerodynamic model, and of the states themselves [[1]](#references).
 
-Force equations
+<u>Force equations</u>
 
 <div class="mjx-chtml">
 $$
@@ -476,7 +476,7 @@ $$
 $$
 </div>
 
-Kinematic equations
+<u>Kinematic equations</u>
 
 <div class="mjx-chtml">
 $$
@@ -490,7 +490,7 @@ $$
 $$
 </div>
 
-Moment equations
+<u>Moment equations</u>
 
 <div class="mjx-chtml">
 $$
@@ -505,7 +505,7 @@ $$
 $$
 </div>
 
-Navigation equations
+<u>Navigation equations</u>
 
 <div class="mjx-chtml">
 $$
@@ -525,24 +525,42 @@ $$
 $$
 </div>
 
+These equations, in combination with the aerodynamics equations, model the complete aircraft dynamics (dynamic states) as a state of the control surfaces and the dynamic states themselves.
+
 ### Simplified model
 
-Library *falcon.m* uses the software package *Ipopt* for large-scale nonlinear optimization [[8]](#references). This software is designed to find local solutions of mathematical optimization problems for minimization of an objective function subject to constraints. It is written in C++ for efficiency. The dynamic model described in the previous two sections is complex, so the solution space tends to have numerous local solutions when using this complex model. This is a problem because *Ipopt* is a tool for local optimization, not global. In order to smooth the solution space and eliminate many local solutions, a simpler approximation is proposed [[9]](#references).
-
-Lift and drag coefficients
+Library **falcon.m** uses the software package **Ipopt** for large-scale nonlinear optimization [[9]](#references). This software is designed to find local solutions of mathematical optimization problems for minimization of an objective function subject to constraints. It is written in C++ for efficiency. The dynamic model described in the previous sections is complex, so the solution space tends to have numerous local solutions. This is a problem because *Ipopt* is a tool for local optimization, not global. In order to smooth the solution space and eliminate numerous local solutions, a simpler approximation is proposed. The motion of the center of mass of an aircraft can be alternatively described [[10]](#references)[[11]](#references) by the following equations.
 
 <div class="mjx-chtml">
 $$
 \small
 \begin{gathered}
-    C_L = C_{L_0} + C_{L_{\alpha}} \cdot \alpha \\
-    C_D = C_{D_0} + K \cdot {C_L}^2 + C_{D_{p}} \cdot \left| p \right| \\
+    q = \left[T{\cdot}\sin{\left(\alpha \right)} + L - m{\cdot}g{\cdot}\left(q_0^2 - q_1^2 - q_2^2 + q_3^2 \right) \right] / \left(m{\cdot}V \right) \\
+    r = \left[ 2{\cdot}m{\cdot}g{\cdot}\left(q_0{\cdot}q_1 + q_2{\cdot}q_3 \right) \right] / \left(m{\cdot}V \right) \\
+    \dot{V} = \left[T{\cdot}\cos{\left(\alpha \right)} - D + 2{\cdot}m{\cdot}g{\cdot}\left(q_1{\cdot}q_3 - q_0{\cdot}q_2 \right) \right] / m \\
+    \dot{q_0} = -\frac{1}{2} {\cdot} \left( q_1{\cdot}p + q_2{\cdot}q + q_3{\cdot}r \right) \\
+    \dot{q_1} = +\frac{1}{2} {\cdot} \left( q_0{\cdot}p + q_2{\cdot}r + q_3{\cdot}q \right) \\
+    \dot{q_2} = +\frac{1}{2} {\cdot} \left( q_0{\cdot}q + q_3{\cdot}p + q_1{\cdot}r \right) \\
+    \dot{q_3} = +\frac{1}{2} {\cdot} \left( q_0{\cdot}r + q_1{\cdot}q + q_2{\cdot}p \right) \\
+    \dot{p_N} = V{\cdot}\left(q_0^2 + q_1^2 - q_2^2 - q_3^2 \right) \\
+    \dot{p_E} = 2{\cdot}V{\cdot}\left(q_0{\cdot}q_3 + q_1{\cdot}q_2 \right) \\
+    \dot{h} = 2{\cdot}V{\cdot}\left(q_0{\cdot}q_2 - q_1{\cdot}q_3 \right) \\
 \end{gathered}
 \tag{31}
 $$
 </div>
 
-Lift and drag
+The quaternions must satisfy the constraint
+
+<div class="mjx-chtml">
+$$
+\small
+q_0^2 + q_1^2 + q_2^2 + q_3^2 = 1
+\tag{32}
+$$
+</div>
+
+This equations of motion are valid for flat, nonrotating earth and for flight without sideforces and with constant mass. The assumption is made that the flight path angles (azimuth, $\chi$, and flight path angle with respect to the horizontal plane, $\gamma$) are approximately equal to the euler angles components yaw, $\psi$, and pitch, $\theta$. We can approximate lift and drag by
 
 <div class="mjx-chtml">
 $$
@@ -551,61 +569,47 @@ $$
     L = q \cdot S \cdot C_L \\
     D = q \cdot S \cdot C_D \\
 \end{gathered}
-\tag{32}
-$$
-</div>
-
-Angular velocities in x and z body axes
-
-<div class="mjx-chtml">
-$$
-\small
-\begin{gathered}
-    q = \left[T{\cdot}\sin{\left(\alpha \right)} + L - m{\cdot}g{\cdot}\left(q_0^2 - q_1^2 - q_2^2 + q_3^2 \right) \right] / \left(m{\cdot}V \right) \\
-    r = \left[ 2{\cdot}m{\cdot}g{\cdot}\left(q_0{\cdot}q_1 + q_2{\cdot}q_3 \right) \right] / \left(m{\cdot}V \right) \\
-\end{gathered}
 \tag{33}
 $$
 </div>
 
-Longitudinal acceleration
-
 <div class="mjx-chtml">
 $$
 \small
-\dot{V} = \left[T{\cdot}\cos{\left(\alpha \right)} - D + 2{\cdot}m{\cdot}g{\cdot}\left(q_1{\cdot}q_3 - q_0{\cdot}q_2 \right) \right] / m
+\begin{gathered}
+    C_L = C_{L_0} + C_{L_{\alpha}} \cdot \alpha \\
+    C_D = C_{D_0} + K \cdot {C_L}^2 + C_{D_{p}} \cdot \left| p \right| \\
+\end{gathered}
 \tag{34}
 $$
 </div>
 
-Quaternion derivatives
+The quaternions are related to the Euler-angles [[12]](#references)[[13]](#references) by
 
-<div class="mjx-chtml">
 $$
 \small
 \begin{gathered}
-    \dot{q_0} = -\frac{1}{2} {\cdot} \left( q_1{\cdot}p + q_2{\cdot}q + q_3{\cdot}r \right) \\
-    \dot{q_1} = +\frac{1}{2} {\cdot} \left( q_0{\cdot}p + q_2{\cdot}r + q_3{\cdot}q \right) \\
-    \dot{q_2} = +\frac{1}{2} {\cdot} \left( q_0{\cdot}q + q_3{\cdot}p + q_1{\cdot}r \right) \\
-    \dot{q_3} = +\frac{1}{2} {\cdot} \left( q_0{\cdot}r + q_1{\cdot}q + q_2{\cdot}p \right) \\
+    q_0 = \cos{\left(\varphi / 2 \right)}{\cdot}\cos{\left(\theta / 2 \right)}{\cdot}\cos{\left(\psi / 2 \right)} + \sin{\left(\varphi / 2 \right)}{\cdot}\sin{\left(\theta / 2 \right)}{\cdot}\sin{\left(\psi / 2 \right)} \\
+    q_1 = \sin{\left(\varphi / 2 \right)}{\cdot}\cos{\left(\theta / 2 \right)}{\cdot}\cos{\left(\psi / 2 \right)} - \cos{\left(\varphi / 2 \right)}{\cdot}\sin{\left(\theta / 2 \right)}{\cdot}\sin{\left(\psi / 2 \right)} \\
+    q_2 = \cos{\left(\varphi / 2 \right)}{\cdot}\sin{\left(\theta / 2 \right)}{\cdot}\cos{\left(\psi / 2 \right)} + \sin{\left(\varphi / 2 \right)}{\cdot}\cos{\left(\theta / 2 \right)}{\cdot}\sin{\left(\psi / 2 \right)} \\
+    q_3 = \cos{\left(\varphi / 2 \right)}{\cdot}\cos{\left(\theta / 2 \right)}{\cdot}\sin{\left(\psi / 2 \right)} - \sin{\left(\varphi / 2 \right)}{\cdot}\sin{\left(\theta / 2 \right)}{\cdot}\cos{\left(\psi / 2 \right)} \\
 \end{gathered}
 \tag{35}
 $$
-</div>
 
-Velocities
+or
 
-<div class="mjx-chtml">
 $$
 \small
 \begin{gathered}
-    \dot{p_N} = V{\cdot}\left(q_0^2 + q_1^2 - q_2^2 - q_3^2 \right) \\
-    \dot{p_E} = 2{\cdot}V{\cdot}\left(q_0{\cdot}q_3 + q_1{\cdot}q_2 \right) \\
-    \dot{h} = 2{\cdot}V{\cdot}\left(q_0{\cdot}q_2 - q_1{\cdot}q_3 \right) \\
+     \varphi = \arctan{\frac{2(q_{0}{\cdot}q_{1}+q_{2}{\cdot}q_{3})}{1-2{\cdot}(q_{1}^{2}+q_{2}^{2})}} \\
+     \theta = \arcsin(2(q_{0}{\cdot}q_{2}-q_{3}{\cdot}q_{1})) \\
+     \psi = \arctan{\frac{2(q_{0}{\cdot}q_{3}+q_{1}{\cdot}q_{2})}{1-2{\cdot}(q_{2}^{2}+q_{3}^{2})}} \\
 \end{gathered}
 \tag{36}
 $$
-</div>
+
+This equations of motion result to be much simpler than the complete aerodynamics and kinematics systems described in previous sections. This sacrifices model accuracy in turn for a smoother solution space which increases the probability of finding a global minimum if the initial conditions are set to be close enough, given that this solution space has less local minimums where the solver can converge.
 
 ### The tool
 
@@ -659,21 +663,21 @@ end
 
 The tool *falcon.m* uses *Matlab Symbolic Toolbox* to find the analytic gradients of the objective function. This task can become complex if the entire dynamic model is considered. In order to facilitate the gradient calculation, the quaternion-based model can be divided into small sections, each of which has an easier gradient calculation and can be all concatenated when finished. This divide and conquer strategy speeds up execution time and decreases the probability of not finding a solution.
 
-Next, the constraints should be implemented into the tool. Constraints are implemented into two types:
+Next, the constraints should be implemented into the tool. Constraints are classified in two types:
 
-* Point boundaries: These are only applied in the initial and final points of the segment (control waypoints). Here we can include the position constraints to pass through/near the pylons and the attitude constraints to pass the pylons at level flight.
+* Point boundaries: These are only applied in the initial and final points of the segments (control waypoints). Here we can include the position constraints to pass through/near the pylons and the attitude constraints to pass through the double pylons at level flight.
 
-* Path constraints: These are applied along the entire segments between the control waypoints. Here we can include the acceleration limits, the position limits to fly inside the safety area, and the requirement that the norm of the quaternion components is always one, in order to correct for possible numerical errors accumulated during the propagation.
+* Path constraints: These are applied along the entire segments. Here we can include the acceleration limits, the position limits to fly inside the safety area, and the requirement that the norm of the quaternion components is always 1. This last constraint helps to correct the possible numerical errors accumulated during the propagation.
 
-The optimal control problem is divided into two fronts:
+The complete optimal control problem is implemented in two separate routines:
 
-* Segment optimization: Optimization for a trajectory segment joining a control waypoint with the next one.
+* Segment optimization: Optimization for a single trajectory segment joining a control waypoint with the next one.
 
-* Trajectory optimization: Trajectory segments are optimized sequentially in order to obtain an optimal control strategy for the entire trajectory. Each new segment has the initial conditions equal to the final conditions of the previous segment. This logic is not optimal, since the solver is optimizing each segment independently of the future segments. Nevertheless, the results are almost optimal given that the segments are significantly big. A future tool improvement could be to connect each segment optimization pipeline in order to have into account the N following segments (*falcon.m* already implements this functionality).
+* Trajectory optimization: Trajectory segments are optimized sequentially in order to obtain an optimal control strategy for the entire trajectory. Each new segment has the initial conditions resulting from the final conditions of the previous segment. This logic is not optimal, since the solver is optimizing each segment independently of the future segments. Nevertheless, the results are almost optimal given that the segments are significantly big. A future tool improvement could be to connect each segment optimization pipeline in order to have into account the $N$ following segments. *falcon.m* already implements this functionality to connect individual optimization problems.
 
 #### FlightGear graphical visualization
 
-In order to provide graphical visualization of the resulting trajectories, compatibility with *FlightGear* open source flight simulator has been implemented in the tool. This also allows to manually test the dynamic model using a Joystick. The graphical visualization engine receives the aircraft's position and attitude from the MATLAB tool via a UDP socket at 60 Hz.
+In order to provide graphical visualization of the resulting trajectories, compatibility with *FlightGear* open source flight simulator has been implemented in the tool. This also allows to manually test the dynamic model using a Joystick. The graphical visualization engine receives the aircraft's position and attitude from the MATLAB® tool via a UDP socket at 60 Hz.
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_013.jpg" width="80%"></p>    
@@ -704,7 +708,7 @@ A graphical user interface was developed to facilitate the configuration process
     <figcaption><p align="center"><b>Figure 17</b> - Flight plan tab</p></figcaption>
 </figure>
 
-In the Flight Plan tab the user can set the coordinates of the control waypoints, as well as specify if each of those waypoints corresponds to a single or double pylon and if a 3D manouevre (looping) is allowed in that segment.
+In the Flight Plan tab the user can set the coordinates of the control waypoints, as well as specify if each of those waypoints corresponds to a single or double pylon and if a 3D manouevre (looping) is allowed in that segment. The tool also allows to save flight plans which have already been entered in order to be able to load them directly in the future.
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_018.png" width="80%"></p>    
@@ -723,29 +727,29 @@ Dynamic model tab conatins all the configuration parameters related with the aer
     <figcaption><p align="center"><b>Figure 20</b> - Options tab</p></figcaption>
 </figure>
 
-Options tab contains configuration parameters related to the optimization logic, as well as to the graphical visualization properties.
+Options tab contains configuration parameters related to the optimization logic, as well as to the plotting capabilities.
 
 #### Initial trajectory
 
-The quaternion-based model facilitates the convergence to a global minimum by reducing the number of local minima in the solution space. However, in order to increase the probability of achieving this global minimum, it is necessary to provide an initial trajectory which is close to the solution. An assistant has been implemented in order to allow the user to set an approximate initial trajectory.
+The quaternion-based model facilitates the convergence to a global minimum by reducing the number of local minima in the solution space. However, in order to increase the probability of achieving this global minimum, it is necessary to provide an initial trajectory which is close to the actual solution. An assistant has been implemented in order to allow the user to set an approximate initial trajectory.
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_021.png" width="80%"></p>    
     <figcaption><p align="center"><b>Figure 21</b> - Initial Trajectory Assistant</p></figcaption>
 </figure>
 
-The initial trajectory does not only refer to positional trajectory, but also the trajectory of the dynamic states, such as thrust, longitudinal velocity, angle of attack or roll angle. Remember the method of direct collocation is based on approximating the state history with polynomial splines, so an initial spline should also be provided. One virtual point is appended between each pair of control waypoints (3 virtual points in case the segment has been set as 3D). This virtual points allow to adjust the initial trajectory more precisely.
+The initial trajectory does not only refer to positional trajectory, but also the trajectory of the dynamic states, such as thrust, longitudinal velocity, angle of attack or roll angle. The method of direct collocation for optimal control which *falcon.m* implements is based on approximating the state history with polynomial splines, so an initial spline should also be provided. State history is entered in the table at the right, specifying the values of the states at each control waypoint. The tool automatically generates splines for this states based on the values entered. One virtual point is appended between each pair of control waypoints (3 virtual points in case the segment has been set as 3D). This virtual points allow to adjust the initial trajectory more precisely.
 
 #### Optimization
 
-Once everything has been set the tool calculates the analytical gradients of the dynamic model using *MATLAB Symbolic Toolbox*, transforms the optimization problem into a nonlinear programming formulation, compiles this code in C++ using *MATLAB Coder* and calls solver *Ipopt* to execute the optimization process. Here are the results of this simple example (open in new tab for more detail).
+Once everything has been set the tool automatically computes the analytical gradients of the dynamic model using *MATLAB Symbolic Toolbox*, transforms the optimization problem into a nonlinear programming formulation, compiles this code in C++ using *MATLAB Coder* toolbox and calls solver *Ipopt* to execute the optimization process. Here are the results of this simple example (open image in new tab for more detail).
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_022.png" width="80%"></p>    
     <figcaption><p align="center"><b>Figure 22</b> - Optimal trajectory (scale 100%)</p></figcaption>
 </figure>
 
-The aircraft is represented along the optimal trajectory to help visualizing aircraft attitude along the track. In image 22 the aircraft is represented at real size, but it can barely be seen. This can be improved by rendering the aircraft four times bigger.
+The aircraft is represented along the optimal trajectory to help visualizing aircraft attitude along the track. In figure 22 the aircraft is represented at real size, but it can barely be seen. User experience is improved by rendering the aircraft four times bigger than real size (this scale factor can also be adjusted in the Options tab).
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_023.png" width="80%"></p>    
@@ -754,14 +758,14 @@ The aircraft is represented along the optimal trajectory to help visualizing air
 
 #### Visualization of results
 
-Dynamic states visualization along the trajectory are automatically generated and can also be displayed. Roll is shown below as an example.
+Resulted dynamic states plots are automatically generated and saved in the *OutputFiles* directory. Roll is shown below as an example.
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_024.png" width="80%"></p>    
     <figcaption><p align="center"><b>Figure 24</b> - Roll during optimal trajectory</p></figcaption>
 </figure>
 
-Additionally, the optimal trajectory can be animated in FlightGear graphical engine by pressing the *Animate* button at the flight plan tab.
+Additionally, the resulted optimal trajectory can be animated in FlightGear graphical engine by pressing the *Animate* button at the flight plan tab.
 
 <!-- TIPS: Get the iframe code in the youtube video -> share -> embed. Add ?rel=0 to not show related videos on playback. Embed the iframe in
 iframe-container to make the video responsive to resolution. Embed the iframe-container into a figure with figcaption to add the figure title.
@@ -777,7 +781,7 @@ The <br /> statement leaves a blank line between the video and the figure title.
 
 #### Multiple segments
 
-The example shown corresponds to the 3D segment of Abu Dhabi Red Bull Air Race 2017 track. This optimization was performed on a single segment. Multiple control waypoints can be set in order to perform an optimization of the entire track composed of various segments. An example race track with six control waypoints is shown in the following figures.
+The simple airtrack segment used in the previous sections corresponds to the 3D segment of Abu Dhabi Red Bull Air Race 2017 track. This optimization was performed on a single segment. Multiple control waypoints can be set in order to perform an optimization of the entire track composed of various segments. An example race track with six control waypoints is shown in the following figures (this track does not correspond with any real track).
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_026.png" width="80%"></p>    
@@ -811,7 +815,7 @@ The example shown corresponds to the 3D segment of Abu Dhabi Red Bull Air Race 2
 
 #### Safety lines and wind
 
-The tool has a functionality to introduce up to two safety lines as additional constraints in the optimization process. A safety line is a segment which delimits the safety zone where all the aircraft should remain at all times. Surpassing a safety line during the race implies instant disqualification for the pilot. In the example below, a safety line is introduced in the 3D sector of Abu Dhabi 2017 race track.
+The tool implements a functionality which allows to introduce up to two safety lines as additional constraints in the optimization problem. A safety line is a segment which delimits the safety area where all the aircraft should remain at all times. Surpassing a safety line during the race implies instant disqualification for the pilot. In the example below, a safety line is introduced in the 3D sector of Abu Dhabi 2017 race track.
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_032.png" width="80%"></p>    
@@ -828,7 +832,7 @@ The tool has a functionality to introduce up to two safety lines as additional c
     <figcaption><p align="center"><b>Figure 34</b> - Optimal trajectory (no wind)</p></figcaption>
 </figure>
 
-In this situation, a turn towards the right is more optimal, given that the presence of the safety line would force to make a really tight turn towards the left. However, this is the result if the air is calm. Wind intensity and heading direction can be modified in the options tab.
+In this situation, a turn towards the right is more optimal, given that the presence of the safety line would force to make a really tight turn towards the left, sacrificing time. However, this is the case if the air is calm. Wind intensity and heading direction can be modified in the options tab. If we introduce some wind the results may vary.
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_035.png" width="80%"></p>    
@@ -840,7 +844,7 @@ In this situation, a turn towards the right is more optimal, given that the pres
     <figcaption><p align="center"><b>Figure 36</b> - Distance to safety line along the optimal trajectory</p></figcaption>
 </figure>
 
-This time the presence of strong winds towards the North make more optimal the turn towards the left, approaching to the safety line area. The optimal trajectory does not surpass the safety line, although it passes really close to it. Up to two simultaneous safety lines can be introduced in the tool.
+This time the presence of strong winds towards the North make more optimal the turn towards the left, approaching to the safety line area. The optimal trajectory does not surpass the safety line, although it passes really close to it. Although the safety line is defined and represented as a segment, the tool considers the infinite line containing that segment. Up to two simultaneous safety lines can be introduced in the tool (see figure below).
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_037.png" width="80%"></p>    
@@ -849,14 +853,14 @@ This time the presence of strong winds towards the North make more optimal the t
 
 #### Automatic functionality
 
-The weather forecast for the race day is usually not very precise. This makes an optimization process with different wind speeds, directions and initial velocities useful. In order to facilitate this iterative process to the user, the tool implements the *Auto* functionality. When activating this functionality the tool makes multiple optimizations changing the wind velocity and direction inside the specified range. The tool automatically generates images of all the resulting trajectories and states and stores them in a directory structure.
+The weather forecast for the race day is usually not very precise. This makes an optimization process with different wind speeds, directions and initial velocities really useful. In order to facilitate this iterative process to the user, the tool implements the *Auto* functionality. When activating this functionality the tool makes multiple optimizations changing the wind velocity and direction inside the specified range. The tool automatically generates images of all the resulting trajectories and states and stores them in a directory structure.
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/rbar_038.png" width="80%"></p>    
     <figcaption><p align="center"><b>Figure 38</b> - Automatically generated optimization results directory structure</p></figcaption>
 </figure>
 
-Each plot is labelled with the resulting optimal time, initial speed and wind heading and speed.
+Each subdirectory contains saved figures of the 3D trajectories, as well as 2D figures of the acceleration, angular velocity, attitude, thrust and position components, and a trajectory timeseries file which can be used to reproduce the trajectory animation in *FlightGear*. Each of these plots is labelled with its corresponding resulting optimal time, initial speed and wind heading and speed.
 
 ### Source Code
 
@@ -868,16 +872,24 @@ This application is open-source and licensed under the MIT license. [https://git
 
 **[2]** [https://en.wikipedia.org/wiki/Quartic_function](https://en.wikipedia.org/wiki/Quartic_function)
 
-**[3]** [https://www.mathworks.com/discovery/genetic-algorithm.html](https://www.mathworks.com/discovery/genetic-algorithm.html)
+**[3]** [http://mathworld.wolfram.com/CubicSpline.html](http://mathworld.wolfram.com/CubicSpline.html)
 
-**[4]** [https://en.wikipedia.org/wiki/Q-learning#Deep_Q-learning](https://en.wikipedia.org/wiki/Q-learning#Deep_Q-learning)
+**[4]** [https://www.mathworks.com/discovery/genetic-algorithm.html](https://www.mathworks.com/discovery/genetic-algorithm.html)
 
-**[5]** John T. Betts. *Practical Methods for Optimal Control and Estimation Using Nonlinear Programming* (2nd ed.). SIAM, 2010.
+**[5]** [https://en.wikipedia.org/wiki/Q-learning#Deep_Q-learning](https://en.wikipedia.org/wiki/Q-learning#Deep_Q-learning)
 
-**[6]** [http://www.fsd.mw.tum.de/software/falcon-m/](http://www.fsd.mw.tum.de/software/falcon-m/)
+**[6]** John T. Betts. *Practical Methods for Optimal Control and Estimation Using Nonlinear Programming* (2nd ed.). SIAM, 2010.
 
-**[7]** A. M. Kuethe and C. Y. Chow. *Foundations of Aerodynamics*. Wiley, 1984.
+**[7]** [http://www.fsd.mw.tum.de/software/falcon-m/](http://www.fsd.mw.tum.de/software/falcon-m/)
 
-**[8]** [https://github.com/coin-or/Ipopt](https://github.com/coin-or/Ipopt)
+**[8]** A. M. Kuethe and C. Y. Chow. *Foundations of Aerodynamics*. Wiley, 1984.
 
-**[9]** K.H. Well and U. A. Wever. *Aircraft Trajectory Optimization using Quaternions - Comparison of a Nonlinear Programming and a Multiple Shooting Approach*. Proceedings IFAC 9th Triennial World Congress, Budapest, Hungary, 1984, pp. 1595-1602.
+**[9]** [https://github.com/coin-or/Ipopt](https://github.com/coin-or/Ipopt)
+
+**[10]** Hans-Joachim Wuensche. *Singularity-free methods for aircraft flight path optimization using euler angles and quaternions*. The University of Texas at Austin, Thesis, 1982.
+
+**[11]** K.H. Well and U. A. Wever. *Aircraft Trajectory Optimization using Quaternions - Comparison of a Nonlinear Programming and a Multiple Shooting Approach*. Proceedings IFAC 9th Triennial World Congress, Budapest, Hungary, 1984, pp. 1595-1602.
+
+**[12]** W. G. Breckenridge. *Quaternions proposed standard conventions*. NASA Jet Propulsion Laboratory, Technical Report, 1979.
+
+**[13]** [https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles](https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles)
