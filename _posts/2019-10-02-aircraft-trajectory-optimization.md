@@ -328,7 +328,7 @@ One could try to apply a deep reinforcement learning method, like Deep Q-Learnin
 
 Another approach to this optimal control problem is based on a technique called **direct collocation**. Direct collocation methods work by approximating the state and control trajectories using polynomial splines [[6]](#references). These methods are sometimes referred to as direct transcription. This technique can be used to transcribe the aicraft dynamics and all constraints into a problem which can be solved using **nonlinear programming**. In mathematics, nonlinear programming (NLP) is the process of solving an optimization problem where some of the constraints or the objective function are nonlinear.
 
-In order to implement this technique, I used the library **falcon.m** [[7]](#references). This library is a free optimal control tool developed at the Institute of Flight System Dynamics at the Institute of Flight System Dynamics of the Technical University of Munich (TUM). It provides a MATLAB® class library which allows to set-up, solve and analyze optimal control problems using numerical optimization methods. The code is optimized for usability and performance and enables the solution of high fidelity real-life optimal control problems with ease.
+In order to implement this technique, I used the library **falcon.m** [[7]](#references). This library is a free optimal control tool developed at the Institute of Flight System Dynamics of the Technical University of Munich (TUM). It provides a MATLAB® class library which allows to set-up, solve and analyze optimal control problems using numerical optimization methods. The code is optimized for usability and performance and enables the solution of high fidelity real-life optimal control problems with ease.
 
 ### Aerodynamic model
 
@@ -340,7 +340,7 @@ Vehicle aerodynamics are modelled by taking into account forces and moments. On 
 $$ \small q=\frac{1}{2} \cdot \rho \cdot V^2 \tag{21} $$
 </div>
 
-We are now in a position to write down the mathematical models for the magnitudes of the forces and moments. The forces and moments acting on the complete aircraft are defined in terms of dimensionless aerodynamic coefficients in equations 2 and 3 respectively. Moment nondimensionalization is usually performed with additional parameters like wingspan, $b$, or wing mean chord, $c$.
+We are now in a position to write down the mathematical models for the magnitudes of the forces and moments. The forces and moments acting on the complete aircraft are defined in terms of dimensionless aerodynamic coefficients in equations 22 and 23 respectively. Moment nondimensionalization is usually performed with additional parameters like wingspan, $b$, or wing mean chord, $c$.
 
 <u>Aerodynamic forces</u>
 
