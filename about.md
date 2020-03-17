@@ -6,10 +6,8 @@ permalink: /about/
 
 <br>
 
-Hello I'm Fidel,
+Hello I'm Jaime,
 
-I'm an aeronautical engineer interested in fields like autonomous driving, machine learning, computer vision and renewable energies.
-
-I'm currently gainfully employed at [UAV Navigation](https://www.uavnavigation.com/).
+I'm a design engineering student interested in fields like industrial design, product design and problem solving.
 
 I hope you enjoy this site!
