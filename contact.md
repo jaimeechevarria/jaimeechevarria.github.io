@@ -6,7 +6,7 @@ permalink: /contact/
 
 
 
-If you want to contact me, send me an email to [fidel.echevarria.corrales@gmail.com](mailto:{{site.email}}) or fill in this form:
+If you want to contact me, send me an email to [jaime99echevarria@gmail.com](mailto:{{site.email}}) or fill in this form:
 
 {% include form.html %}
 
