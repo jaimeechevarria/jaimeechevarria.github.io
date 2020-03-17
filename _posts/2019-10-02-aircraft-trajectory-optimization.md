@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Aircraft Trajectory Optimization
-summary: Analysis tool for estimation of optimal aircraft trajectories in air races.
-categories: [Simulation, Optimization]
-featured-img: rbar
+title: Modelling my Home
+summary: 3D modelling of my home using SketchUp.
+categories: [3D, Design]
+featured-img: rbar_
 mathjax: true
 ---
 
