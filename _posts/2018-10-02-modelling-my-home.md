@@ -7,7 +7,7 @@ featured-img: house
 mathjax: true
 ---
 
-This is a modelling project of my own house using Google SketchUp application. Colors and details follows faithfully the reality. To create this design I used the original plans of the house. I hope you like it. 
+This is a modelling project of my own house using Google SketchUp 3D modelling software developed by *Trimble Navigation*. Colors and details follows faithfully the reality. To create this design I used the original blueprints of the house. I hope you like it. 
 
 [Click here to see the 3D model](https://1drv.ms/u/s!AjJE1jku6Rgih7FDaN-QRHRrqWi5pg)
 
@@ -34,7 +34,7 @@ This is a modelling project of my own house using Google SketchUp application. C
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/house_5.png" width="80%"></p>
-    <figcaption><p align="center"><b>Figure 5</b> - Window detailed view</p></figcaption>
+    <figcaption><p align="center"><b>Figure 5</b> - Windows detailed view</p></figcaption>
 </figure>
 
 <figure>
