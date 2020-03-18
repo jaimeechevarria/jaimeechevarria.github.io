@@ -40,3 +40,5 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
     <p align="center"><img src="/assets/img/article_images/house_6.png" width="80%"></p>
     <figcaption><p align="center"><b>Figure 6</b> - Entrance view</p></figcaption>
 </figure>
+
+[Click here to meet the minion](https://1drv.ms/u/s!AjJE1jku6RgigoIMjD4CAqS_cJOrKg)
