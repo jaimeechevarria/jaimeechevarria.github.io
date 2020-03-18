@@ -18,25 +18,25 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/house_2.png" width="80%"></p>
-    <figcaption><p align="center"><b>Figure 1</b> - Southwest view</p></figcaption>
+    <figcaption><p align="center"><b>Figure 2</b> - Southwest view</p></figcaption>
 </figure>
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/house_3.png" width="80%"></p>
-    <figcaption><p align="center"><b>Figure 1</b> - Northwest view</p></figcaption>
+    <figcaption><p align="center"><b>Figure 3</b> - Northwest view</p></figcaption>
 </figure>
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/house_4.png" width="80%"></p>
-    <figcaption><p align="center"><b>Figure 1</b> - Northeast view</p></figcaption>
+    <figcaption><p align="center"><b>Figure 4</b> - Northeast view</p></figcaption>
 </figure>
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/house_5.png" width="80%"></p>
-    <figcaption><p align="center"><b>Figure 1</b> - Window detailed view</p></figcaption>
+    <figcaption><p align="center"><b>Figure 5</b> - Window detailed view</p></figcaption>
 </figure>
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/house_6.png" width="80%"></p>
-    <figcaption><p align="center"><b>Figure 1</b> - Entrance view</p></figcaption>
+    <figcaption><p align="center"><b>Figure 6</b> - Entrance view</p></figcaption>
 </figure>
