@@ -7,14 +7,15 @@ featured-img: house
 mathjax: true
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+This is a modelling project of my own house using Google SketchUp application. Colors and details follows faithfully the reality. To create this design I used the original plans of the house. I hope you like it. 
+
+[Click here to see the 3D model](https://1drv.ms/u/s!AjJE1jku6Rgih7FDaN-QRHRrqWi5pg)
+
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/house_1.png" width="80%"></p>
     <figcaption><p align="center"><b>Figure 1</b> - Southeast view</p></figcaption>
 </figure>
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/house_2.png" width="80%"></p>
@@ -41,4 +42,3 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
     <figcaption><p align="center"><b>Figure 6</b> - Entrance view</p></figcaption>
 </figure>
 
-[Click here to see the 3D model](https://1drv.ms/u/s!AjJE1jku6Rgih7FDaN-QRHRrqWi5pg)
