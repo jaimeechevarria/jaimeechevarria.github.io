@@ -41,4 +41,4 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
     <figcaption><p align="center"><b>Figure 6</b> - Entrance view</p></figcaption>
 </figure>
 
-[Click here to meet the minion](https://1drv.ms/u/s!AjJE1jku6RgigoIMjD4CAqS_cJOrKg)
+[Click here to see the 3D model](https://1drv.ms/u/s!AjJE1jku6Rgih7FDaN-QRHRrqWi5pg)
