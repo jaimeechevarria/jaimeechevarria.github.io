@@ -18,37 +18,37 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/minion_2.jpg" width="80%"></p>
-    <figcaption><p align="center"><b>Figure 1</b> - Side blueprint</p></figcaption>
+    <figcaption><p align="center"><b>Figure 2</b> - Side blueprint</p></figcaption>
 </figure>
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/minion_3.jpg" width="80%"></p>
-    <figcaption><p align="center"><b>Figure 2</b> - Dungarees embroidery</p></figcaption>
+    <figcaption><p align="center"><b>Figure 3</b> - Dungarees embroidery</p></figcaption>
 </figure>
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/minion_4.jpg" width="80%"></p>
-    <figcaption><p align="center"><b>Figure 3</b> - Eye texture</p></figcaption>
+    <figcaption><p align="center"><b>Figure 4</b> - Eye texture</p></figcaption>
 </figure>
 
 <figure>
-    <p align="center"><img src="/assets/img/article_images/minion_5.jpg" width="80%"></p>
-    <figcaption><p align="center"><b>Figure 4</b> - Teeth detail</p></figcaption>
+    <p align="center"><img src="/assets/img/article_images/minion_5.png" width="80%"></p>
+    <figcaption><p align="center"><b>Figure 5</b> - Teeth detail</p></figcaption>
 </figure>
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/minion_6.jpg" width="80%"></p>
-    <figcaption><p align="center"><b>Figure 5</b> - Minion render</p></figcaption>
+    <figcaption><p align="center"><b>Figure 6</b> - Minion render</p></figcaption>
 </figure>
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/minion_7.jpg" width="80%"></p>
-    <figcaption><p align="center"><b>Figure 6</b> - Background</p></figcaption>
+    <figcaption><p align="center"><b>Figure 7</b> - Background</p></figcaption>
 </figure>
 
 <figure>
     <p align="center"><img src="/assets/img/article_images/minion_8.jpg" width="80%"></p>
-    <figcaption><p align="center"><b>Figure 7</b> - Minion render with background</p></figcaption>
+    <figcaption><p align="center"><b>Figure 8</b> - Minion render with background</p></figcaption>
 </figure>
 
 [Click here to meet the minion](https://1drv.ms/u/s!AjJE1jku6RgigoIMjD4CAqS_cJOrKg)
