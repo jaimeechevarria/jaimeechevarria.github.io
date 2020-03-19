@@ -18,7 +18,7 @@ navigation: # Navigation links
   - {name: 'Home', link: '/'}
   - {name: 'About', link: '/about'}
   - {name: 'Contact', link: '/contact'}
-  - {name: 'CV', link: '/CV'}
+  - {name: 'CV', link: '/CV-Jaime-Echevarria.pdf'}
 
 tagline: >
   Jaime Echevarría Corrales
