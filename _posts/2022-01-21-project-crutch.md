@@ -1,17 +1,17 @@
 ---
 layout: post
-title: Project Minion
-summary: 3D modelling of the coolest helper.
+title: Project Crutch
+summary: Whole designing project of a crutch
 categories: [3D, Design]
-featured-img: minion
+featured-img: Muleta1Render2
 mathjax: true
 ---
 
-This project involves the development and design of a Minion 3D model (from Gru movie franchise). It has been developed using 3D modelling software Catia, from the company *Dassault Systemes*.
+This project involves the development and design of a crutch. It has been developed using 3D modelling software Creo Parametric, from the company *PTC Corporation*.
 
 
 
-The following images correspond to different details of the project.
+The following link corresponds to the final pdf poster presentation of the project.
 
 
 
