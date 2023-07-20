@@ -1,7 +1,7 @@
 import cv2
 
 # Load image using opencv
-image_title = 'ExplodedView'
+image_title = 'Hairdryer'
 img = cv2.imread(f'{image_title}.png')
 
 # # Display image
