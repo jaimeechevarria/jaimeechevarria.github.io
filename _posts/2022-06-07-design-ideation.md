@@ -15,7 +15,7 @@ The following link corresponds to the final pdf sketchbook of the 5 projects. It
 
 
 
-[My project sketchbook](https://jaimeechevarria.github.io/Design_Ideation.pdf)
+[My project sketchbook](https://jaimeechevarria.github.io/DESIGN_IDEATION.pdf)
 
 
 The following link corresponds to the final portfolio.
