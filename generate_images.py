@@ -1,7 +1,7 @@
 import cv2
 
 # Load image using opencv
-image_title = 'HeadphonesTopRedRender'
+image_title = 'FurnitureRender5Lamp.9'
 img = cv2.imread(f'{image_title}.png')
 
 # # Display image

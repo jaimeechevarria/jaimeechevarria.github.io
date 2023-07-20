@@ -7,7 +7,7 @@ featured-img: Muleta1Render2
 mathjax: true
 ---
 
-This project involves the development and design of a crutch. It has been developed using 3D modelling software Creo Parametric, from the company *PTC Corporation*.
+This project involves the development and design of a crutch. It has been developed using 3D modelling software Creo Parametric, from the company *PTC Corporation*. Keyshot 10 software has been used for the rendering of the design.
 
 
 

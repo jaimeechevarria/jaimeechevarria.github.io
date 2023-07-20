@@ -7,7 +7,7 @@ featured-img: Hairdryer
 mathjax: true
 ---
 
-This project involves the development and design of a functional hairdryer. It has been developed using 3D modelling software Creo Parametric, from the company *PTC Corporation*.
+This project involves the development and design of a functional hairdryer. It has been developed using 3D modelling software Creo Parametric, from the company *PTC Corporation*. Keyshot 10 software has been used for the rendering of the design.
 
 
 
