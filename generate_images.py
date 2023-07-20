@@ -1,7 +1,7 @@
 import cv2
 
 # Load image using opencv
-image_title = 'FurnitureRender5Lamp.9'
+image_title = 'oakley'
 img = cv2.imread(f'{image_title}.png')
 
 # # Display image
