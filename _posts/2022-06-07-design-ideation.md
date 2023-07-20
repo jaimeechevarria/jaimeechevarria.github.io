@@ -3,7 +3,7 @@ layout: post
 title: Design ideation
 summary: Whole 5 designing projects
 categories: [3D, Design]
-featured-img: HeadphonesTopRedRender
+featured-img: FurnitureRender5Lamp.9
 mathjax: true
 ---
 
@@ -15,10 +15,10 @@ The following link corresponds to the final pdf sketchbook of the 5 projects. It
 
 
 
-[My project plug](https://jaimeechevarria.github.io/SmartMaterials.pdf)
+[My project plug](https://jaimeechevarria.github.io/DesignIdeation.pdf)
 
 
 The following link corresponds to the final portfolio.
 
 
-[My project Portfolio](https://jaimeechevarria.github.io/PORTFOLIO.pdf)
+[My project Portfolio](https://jaimeechevarria.github.io/PORTFOLIODesignIdeation.pdf)
