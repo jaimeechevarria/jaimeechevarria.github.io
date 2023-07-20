@@ -3,7 +3,7 @@ layout: post
 title: Project Oakley and Handblender
 summary: Whole designing project of a handblender and smart Oakley glasses
 categories: [3D, Design]
-featured-img: ExplodedView
+featured-img: oakley
 mathjax: true
 ---
 
@@ -14,14 +14,14 @@ The following link corresponds to the final pdf poster of the Oakley glasses.
 
 
 
-[My project plug](https://jaimeechevarria.github.io/CW1.pdf)
+[My Oakley poster](https://jaimeechevarria.github.io/Oakley_Glasses_Post.pdf)
 
 
 The following link corresponds to the final pdf poster of the handblender.
 
 
 
-[My project plug](https://jaimeechevarria.github.io/CW1.pdf)
+[My handblender poster](https://jaimeechevarria.github.io/Hand_Blender_Post.pdf)
 
 
 
@@ -30,5 +30,5 @@ The following link corresponds to the final pdf portfolio of the project.
 
 
 
-[My project plug](https://jaimeechevarria.github.io/CW1.pdf)
+[My project plug](https://jaimeechevarria.github.io/INTRODUCTION TO ILLUSTRATION TECHNIQUES.pdf)
 
