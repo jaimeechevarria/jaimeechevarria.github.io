@@ -15,7 +15,7 @@ The following link corresponds to the final pdf report of the project. It contai
 
 
 
-[My project plug](https://jaimeechevarria.github.io/SmartMaterials.pdf)
+[My project Headphones](https://jaimeechevarria.github.io/SmartMaterials.pdf)
 
 
 The following link corresponds to the final portfolio.

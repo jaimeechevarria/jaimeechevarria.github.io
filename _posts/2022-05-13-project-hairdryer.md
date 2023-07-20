@@ -15,5 +15,5 @@ The following link corresponds to the final pdf report of the project.
 
 
 
-[My project plug](https://jaimeechevarria.github.io/CADCW2.pdf)
+[My project hairdryer](https://jaimeechevarria.github.io/CADCW2.pdf)
 
