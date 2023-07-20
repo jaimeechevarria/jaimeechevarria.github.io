@@ -1,7 +1,7 @@
 import cv2
 
 # Load image using opencv
-image_title = 'Muleta1Render2'
+image_title = 'RedesignRender1'
 img = cv2.imread(f'{image_title}.png')
 
 # # Display image
