@@ -30,5 +30,5 @@ The following link corresponds to the final pdf portfolio of the project.
 
 
 
-[My project plug](https://jaimeechevarria.github.io/INTRODUCTION TO ILLUSTRATION TECHNIQUES.pdf)
+[My project portfolio](https://jaimeechevarria.github.io/INTRODUCTION_TO_ILLUSTRATION_TECHNIQUES.pdf)
 
