@@ -1,0 +1,24 @@
+---
+layout: post
+title: Project Headphones
+summary: Whole designing project of smart material headphones
+categories: [3D, Design]
+featured-img: Hairdryer
+mathjax: true
+---
+
+This project involves the development and design of smart material headphones. It has been developed using 3D modelling software Creo Parametric, from the company *PTC Corporation*.
+
+
+
+The following link corresponds to the final pdf report of the project. It contains mainly choices explanations (material, PDS...)
+
+
+
+[My project plug](https://jaimeechevarria.github.io/CADCW2.pdf)
+
+
+The following link corresponds to the final portfolio.
+
+
+[My project Portfolio](https://jaimeechevarria.github.io/CADCW2.pdf)
