@@ -3,7 +3,7 @@ layout: post
 title: Project Headphones
 summary: Whole designing project of smart material headphones
 categories: [3D, Design]
-featured-img: Hairdryer
+featured-img: HeadphonesTopRedRender
 mathjax: true
 ---
 
@@ -15,10 +15,10 @@ The following link corresponds to the final pdf report of the project. It contai
 
 
 
-[My project plug](https://jaimeechevarria.github.io/CADCW2.pdf)
+[My project plug](https://jaimeechevarria.github.io/SmartMaterials.pdf)
 
 
 The following link corresponds to the final portfolio.
 
 
-[My project Portfolio](https://jaimeechevarria.github.io/CADCW2.pdf)
+[My project Portfolio](https://jaimeechevarria.github.io/PORTFOLIO.pdf)
